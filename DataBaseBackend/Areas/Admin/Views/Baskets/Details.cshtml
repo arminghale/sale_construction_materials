@@ -1,0 +1,127 @@
+﻿@model DataBaseBackend.Basket
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex justify-content-center">
+                فاکتور سفارش @Model.id
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="form-row" id="createform">
+    <div class="form-group col-md-4">
+        <label class="control-label col-md-12" style="font-weight: bold;text-align:center;">کاربر</label>
+        <hr />
+        <label class="control-label col-md-12" style="font-size: 20px;text-align:center;">@Model.User.Person.name  @Model.User.Person.lastname</label>
+    </div>
+    <div class="form-group col-md-4">
+        <label class="control-label col-md-12" style="font-weight: bold;text-align:center;" asp-for="paydate"></label>
+        <hr />
+        <label class="control-label col-md-12" style="font-size: 20px;text-align: center;">@DateDifference.MiladiToShamsi(Model.paydate)</label>
+    </div>
+    <div class="form-group col-md-4">
+        <label class="control-label col-md-12" style="font-weight: bold;text-align:center;" asp-for="paymentid"></label>
+        <hr />
+        <label class="control-label col-md-12" style="font-size: 20px;text-align: center;">@Model.paymentid</label>
+    </div>
+    <div class="form-group col-md-4">
+        <label class="control-label col-md-12" style="font-weight: bold;text-align:center;" asp-for="createdate"></label>
+        <hr />
+        <label class="control-label col-md-12" style="font-size: 20px;text-align: center;">@DateDifference.MiladiToShamsi(Model.createdate)</label>
+    </div>
+    @if (Model.issend)
+    {
+        <div class="form-group col-md-4">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align:center;" asp-for="senddate"></label>
+            <hr />
+            <label class="control-label col-md-12" style="font-size: 20px;text-align: center;">@DateDifference.MiladiToShamsi(Model.senddate)</label>
+        </div>
+    }
+    @if (Model.isready && !Model.issend)
+    {
+        <div class="form-group col-md-4">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align:center;" asp-for="isready"></label>
+            <hr />
+            <label class="control-label col-md-12" style="font-size: 20px;text-align: center;">انجام شده آماده ارسال</label>
+        </div>
+    }
+    @if (!Model.isready)
+    {
+        <div class="form-group col-md-4">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align:center;" asp-for="isready"></label>
+            <hr />
+            <label class="control-label col-md-12" style="font-size: 20px;text-align: center;">در حال بررسی و آماده سازی</label>
+        </div>
+    }
+    <div class="form-group col-md-6">
+        <label class="control-label col-md-12" style="font-weight: bold;text-align:center;">آدرس</label>
+        <hr />
+        <label class="control-label col-md-12" style="font-size: 20px; text-align: center;">
+            @(Model.Address.ostan+"-"+Model.Address.shahr+"-"+Model.Address.text+"--"+Model.Address.codeposti)
+        </label>
+    </div>
+    <div class="form-group col-md-6">
+        <label class="control-label col-md-12" style="font-weight: bold;text-align:center;">اطلاعات گیرنده</label>
+        <hr />
+        <label class="control-label col-md-12" style="font-size: 20px;text-align: center;">
+            @(Model.Address.girandename+" "+Model.Address.girandelastname+" - "+Model.Address.girandephonenumber)
+        </label>
+    </div>
+    @foreach (var item in Model.BasketItems)
+    {
+        <div class="form-row col-md-12" style="border:groove">
+            <div class="col-md-3">
+                <img src="/Files/Thumb/@item.Product.imagename" />
+            </div>
+            <div class="d-flex justify-content-center align-items-center col-md-4" style="font-weight: bold;">
+                <span>
+                    @(item.Product.title + "-" + item.Product.price.ToString("###/000")+"تومان ")
+                </span>
+            </div>
+            <div class="d-flex justify-content-center align-items-center col-md-2" style="font-weight: bold;">
+                <span>
+                    @item.count @item.Product.PrGroup.vahed
+                </span>
+            </div>
+            <div class="d-flex justify-content-center align-items-center col-md-3" style="font-weight: bold;">
+                <span>
+                    @if (item.mablagh > 1000000)
+                    {
+                        @(item.mablagh.ToString("###/###/000")+" تومان");
+                    }
+                    else
+                    {
+                        @(item.mablagh.ToString("###/000")+" تومان");
+                    }
+
+                </span>
+            </div>
+
+        </div>
+    }
+    <div class="form-group col-md-6">
+        <label class="control-label col-md-12" style="font-weight: bold;text-align:center;">مبلغ کل</label>
+        <hr />
+        <label class="control-label col-md-12" style="font-size: 20px; text-align: center;">
+            @if (Model.total > 1000000)
+            {
+                @(Model.total.ToString("###/###/000")+" تومان")
+            }
+            else
+            {
+                @(Model.total.ToString("###/000")+" تومان")
+            }
+        </label>
+    </div>
+</div>
+<a class="btn btn-dark " asp-action="Index">بازگشت</a>

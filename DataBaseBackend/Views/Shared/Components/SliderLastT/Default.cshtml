@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Product>
+@if (Model.Count() != 0)
+{
+<div class="last-discount">
+    <div style="display: flex; flex-direction: row;">
+        <h4 class="text-dark col-2" style="margin-right: 40px;"> آخرین تخفیفات </h4>
+        <div class="col-8"></div>
+        @*<a class="col-1" style="text-align: left; margin-left: 0px;" href="#">مشاهده لیست کامل</a>*@
+    </div>
+    <div style="background-color: rgb(199, 199, 199); width: 95%; height: 2px; margin-bottom: 20px; margin-left: auto; margin-right: auto;">
+    </div>
+    <!-- Slider main container -->
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+
+            @for (int i = 0; i <= Model.Count() / 5; i++)
+            {
+                <div class="swiper-slide">
+                    <div class="col-12 list-of-card">
+                        @{
+                            int a = i * 5;
+                        }
+                        @foreach (var item in Model.Skip(i * 5).Take(5))
+                        {
+
+                            <div class="product-card">
+                                <a href="/Products/@item.id">
+                                    <div class="card-img-holder">
+                                        <img class="img-card" src="/Files/Thumb/@item.imagename">
+                                    </div>
+                                    <div class="card-price">
+                                        <del class="before-discount">@item.price.ToString("###/000") تومان</del>
+                                        <span class="after-discount">@ViewBag.t[a].ToString("###/000") تومان</span>
+                                    </div>
+                                    <div class="card-text">
+                                        <h6>@item.title</h6>
+                                    </div>
+                                </a>
+                            </div>
+
+                           a = a + 1;
+                        }
+
+
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="swiper-button-prev swiper-button-black"></div>
+        <div class="swiper-button-next swiper-button-black"></div>
+    </div>
+</div>
+}

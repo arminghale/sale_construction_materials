@@ -1,0 +1,55 @@
+﻿@model DataBaseBackend.Login
+
+@{
+    Layout = null;
+}
+
+<title> فراموشی رمز عبور </title>
+<link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="/js/bootstrap/bootstrap.min.js"></script>
+<link href="/css/register-step2-style.css" rel="stylesheet">
+
+
+<div class="wrapper fadeInDown col-6">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <div id="formFooter">
+            <h4 class="underlineHover1" href="#">فراموشی رمز عبور</h4>
+            <h6 class="underlineHover1" href="#">تایید ایمیل</h6>
+        </div>
+        <!-- Icon -->
+        <div style="display: flex; flex-direction: row; justify-content: center; margin-top: 30px;">
+            <div class="col-2"></div>
+            <div class="fadeIn first col-1" >
+                مرحله ۱
+            </div>
+            <div class="col-2">
+                <hr>
+            </div>
+            <div class="fadeIn first col-1" style="border-bottom: 3px solid #01AAFF; padding-bottom: 2px;">
+                مرحله ۲
+            </div>
+            <div class="col-2">
+                <hr>
+            </div>
+            <div class="fadeIn first col-1">
+                مرحله ۳
+            </div>
+            <div class="col-2"></div>
+        </div>
+
+        <!-- Login Form -->
+        <form class="login-form" asp-action="ForgetPass2">
+            <input name="email" value="@ViewBag.email" hidden class="form-control" />
+            <div class="login-part col-9">
+                <label>کد فعالسازی</label>
+                <input type="text" id="login" class="fadeIn second" name="activecode"
+                       placeholder="کد ارسال شده به ایمیل را در این قسمت وارد کنید">
+                <span class="warning" asp-validation-for="password"></span>
+            </div>
+
+            <input type="submit" class="fadeIn submit fourth col-6" value=ادامه>
+        </form>
+
+    </div>
+</div>

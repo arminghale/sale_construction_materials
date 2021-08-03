@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    @RenderSection("Css", required: false)
+    <link rel="stylesheet" href="~/css/bootstrap/bootstrap.min.css" />
+    <script src="~/js/44f3d7159d.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/css/swiper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/js/swiper.min.js"></script>
+
+</head>
+<body>
+    @await Component.InvokeAsync("Header")
+
+
+    @RenderBody()
+
+    <div class="footer">
+        <div class="upper-footer col-11">
+            <div class="col-6 right-footer">
+                <div class="up-fo-info">
+                    <i class="fas fa-store-alt"></i>
+                    <h6>فروشگاه اینترنتی مصالح ساختمانی</h6>
+                </div>
+                <h8>
+                    فروشگاه اینترنتی مصالح ساختمانی با کمتر از 20 سال تجریه و دریافت جوایز و استاندارد های مختلف برای
+                    خدمت گذاری شما عزیزان حاظر است. بعدشم یه سری خزعبلات دیگه که فضا رو پر کنه. میتونیم فونتش هم بزرگتر
+                    کنیم که پر بشه.
+                </h8>
+                <div></div>
+            </div>
+            <div class="col-6 left-footer">
+
+                <div id="a-container">
+                    <div class="col-6 right">
+                        <h6 id="header-info" style="margin-right: 0px;"> راه های ارتباطی دیگر </h6>
+                        <h8 class="desc-info"> شما میتوانید از راه های زیر با ما در ارتباط باشید </h8>
+                        <ul class="main-ul">
+                            <li class="main-li">
+                                <i class="fas fa-phone fa-lg in-aline mt-2"></i>
+                                <ul class="sub-ul">
+                                    <li class="sub-li" style="margin-top: 5px;"> 017-32366666 </li>
+                                </ul>
+                            </li>
+                            <li class="main-li">
+                                <i class="far fa-envelope fa-lg in-aline mt-2"></i>
+                                <ul class="sub-ul">
+                                    <li class="sub-li" style="margin-top: 4px;"> pouria_kdy@yahoo.com </li>
+                                </ul>
+                            </li>
+                            <li class="main-li">
+                                <i class="fas fa-fax fa-lg in-aline mt-1"></i>
+                                <ul class="sub-ul">
+                                    <li class="sub-li mt-1"> 017-32388888 </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-6 left">
+                        <ul class="main-ul">
+                            <h6 class="desc-info" style="margin-right: 0px;">
+                                همچنین میتوانید از راه های زیر در شبکه های
+                                اجتماعی همراه ما باشید
+                            </h6>
+                            <a href="#" id="instagram">
+                                <li class="main-social-li">
+                                    <i class="fab fa-instagram fa-3x"></i>
+                                </li>
+                            </a>
+                            <a href="#" id="telegram">
+                                <li class="main-social-li">
+                                    <i class="fab fa-telegram-plane fa-3x"></i>
+                                </li>
+                            </a>
+                            <a href="#" id="whatsapp">
+                                <li class="main-social-li">
+                                    <i class="fab fa-whatsapp fa-3x"></i>
+                                </li>
+                            </a>
+                        </ul>
+                        <div style="margin-top: 100px;">
+                            <h8 style="font-weight: bold; margin-right: 3px;">اینستاگرام</h8>
+                            <h8 style="font-weight: bold; margin-right: 32px;">تلگرام</h8>
+                            <h8 style="font-weight: bold; margin-right: 35px;">واتساپ</h8>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="col-10">
+        <div class="downer-footer col-12">
+            <span>© کلیه حقوق مادی و معنوی برای این سایت محفوظ میباشد</span>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/second-javascript.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

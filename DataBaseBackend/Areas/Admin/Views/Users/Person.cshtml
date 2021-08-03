@@ -1,0 +1,126 @@
+﻿@model DataBaseBackend.Person
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex justify-content-center">
+                اطلاعات فردی کاربر @ViewBag.id
+            </div>
+        </div>
+    </div>
+</nav>
+<form asp-action="Person">
+    <div class="form-row" id="createform">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input hidden asp-for="id" value="@ViewBag.id" />
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align:center;" asp-for="name"></label>
+            @if (Model != null)
+            {
+                <input class="form-control" id="email" asp-for="name" value="@Model.name" />
+            }
+            else
+            {
+                <input class="form-control" id="email" asp-for="name" />
+            }
+
+            <span class="text-danger" asp-validation-for="name"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align:center;" asp-for="lastname"></label>
+            @if (Model != null)
+            {
+                <input class="form-control" id="username" asp-for="lastname" value="@Model.lastname" />
+            }
+            else
+            {
+                <input class="form-control" id="username" asp-for="lastname" />
+            }
+
+            <span class="text-danger" asp-validation-for="lastname"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align:center;" asp-for="phonenumber"></label>
+            @if (Model != null)
+            {
+                <input class="form-control" id="username" asp-for="phonenumber" value="@Model.phonenumber" />
+            }
+            else
+            {
+                <input class="form-control" id="username" asp-for="phonenumber" />
+            }
+
+            <span class="text-danger" asp-validation-for="phonenumber"></span>
+        </div>
+    </div>
+    <input type="submit" value="ثبت اطلاعات" class="btn btn-success btn-lg" /> |
+    <a class="btn btn-dark " asp-action="Index">بازگشت</a>
+</form>
+
+@section Scripts {
+    <script>
+
+        $(document).ready(function () {
+            var jsonState;
+            var URL = '/Admin/Users/State';
+            var req = new XMLHttpRequest();
+            req.open('GET', URL);
+            req.responseType = 'json';
+            req.send();
+            req.onload = function () {
+                var resp = req.response;
+                jsonState = resp;
+                for (var i = 0; i < jsonState.length; i++) {
+                    var op = $("<option>").html(jsonState[i].name);
+                    op.val(jsonState[i].id);
+                    $('#ostan').append(op);
+                }
+            }
+        });
+        $('#ostan').change(function () {
+            $("#shahr > option").remove();
+            var state = $("#ostan > option:selected").val()
+            var jsonCity;
+            var URL2 = '/Admin/Users/City';
+            var req2 = new XMLHttpRequest();
+            req2.open('GET', URL2);
+            req2.responseType = 'json';
+            req2.send();
+            req2.onload = function () {
+                var resp2 = req2.response;
+                jsonCity = resp2;
+                for (var i = 0; i < jsonCity.length; i++) {
+                    if (jsonCity[i].province_id == state) {
+                        var op = $("<option>").html(jsonCity[i].name);
+                        op.val(jsonCity[i].id);
+                        //$('#shahr').append("<option value=" + jsonCity[i].name + ">" + jsonCity[i].name + "<option/>")
+                        $('#shahr').append(op);
+                    }
+
+                }
+            }
+
+        });
+    </script>
+    <script>
+        function addfield() {
+            var field = "<div class='form-group col-md-3'><label class='control-label col-md-7' style ='font-weight: bold;text-align:center;'> عنوان فیلد</label><input name='field' class='form-control col-md-6' type='text' /><input type='button' class='btn btn-danger mt-sm-2 mx-xl-5' value='حذف' onclick='deletefield(event)'/></div >";
+            $("#createform").append(field);
+        }
+        function deletefield(e) {
+            $(e.target).before().remove();
+            $(e.target).before().remove();
+            $(e.target).before().remove();
+            $(e.target).remove();
+        }
+    </script>
+}

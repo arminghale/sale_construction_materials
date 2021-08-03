@@ -1,0 +1,117 @@
+﻿@model IEnumerable<DataBaseBackend.Product>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex justify-content-center">
+                لیست کالا ها
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="alldevices">
+    <form class="form-inline" asp-action="Index">
+        <div class="form-group mx-sm-3 mb-2">
+            <select id="group" type="text" class="form-control"  asp-items="ViewBag.prgroupid">
+                <option value="-1">همه</option>
+            </select>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <select type="text" class="form-control">
+                <option value="-1">جستجو براساس</option>
+                <option value="0">نام کالا</option>
+                <option value="1">کد کالا</option>
+            </select>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <input type="text" class="form-control" placeholder="جستجو" name="search">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">جستجو</button>
+        <div class="mx-sm-3 mb-2">
+            <a asp-action="Create" class="btn btn-outline-success">افزودن کالا جدید</a>
+        </div>
+    </form>
+    <br>
+    <!-- device's list -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">
+                    تصویر
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.title)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tbod">
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <img src="/Files/Thumb/@item.imagename" style="max-width:60px" data-preview-image="/Files/Thumb/@item.imagename"/>
+                </td>
+                <td>
+                    @item.title
+                </td>
+                <td>
+                    <div>
+                        <a class="btn btn-warning " asp-action="Edit" asp-route-id="@item.id">تغییر</a>
+                        <a class="btn btn-info " asp-action="Details" asp-route-id="@item.id">جزئیات</a>
+                        <a class="btn btn-danger " data-toggle="modal" data-target="#exampleModal" data-id="@item.id" data-method="Products">حذف</a>
+                        <a class="btn btn-secondary " asp-action="Field" asp-route-id="@item.id">تکمیل فیلدها</a>
+                        <a class="btn btn-primary " asp-action="TakhfifList" asp-route-id="@item.id">لیست تخفیف ها</a>
+                        @if (item.Takhfifs.Count != 0)
+                        {
+                            @if (DateDifference.IsActive(item.Takhfifs.OrderByDescending(w => w.endtime).FirstOrDefault().endtime))
+                            {
+                                <a class="btn btn-outline-danger " asp-action="TakhfifDelete" asp-route-id="@item.Takhfifs.OrderByDescending(w => w.endtime).FirstOrDefault().id">حذف تخفیف</a>
+                                @(item.Takhfifs.OrderByDescending(w => w.endtime).FirstOrDefault().darsad+"% - فعال")
+                            }
+                            else
+                            {
+                                <a class="btn btn-outline-primary " asp-action="Takhfif" asp-route-productid="@item.id">اعمال تخفیف</a>
+                            }
+                        }
+                        else
+                        {
+                            <a class="btn btn-outline-primary " asp-action="Takhfif" asp-route-productid="@item.id">اعمال تخفیف</a>
+                        }
+                    </div>
+                </td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{ 
+<script>
+    $("#group").change(function () {
+        var id = $(this).find(":selected").val();
+        window.location.replace("/Admin/Products/Index/?gid=" + id);
+    });
+</script>
+<script>
+    $.previewImage({
+        'xOffset': 10,  // x-offset from cursor
+        'yOffset': -100,  // y-offset from cursor
+        'fadeIn': 100, // delay in ms. to display the preview
+        'css': {        // the following css will be used when rendering the preview image.
+            'padding': '20px',
+            // 'border': '5px solid black'
+        }
+    });
+</script>
+}

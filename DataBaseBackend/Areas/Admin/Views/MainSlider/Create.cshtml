@@ -1,0 +1,42 @@
+﻿@model DataBaseBackend.MainSlider
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex justify-content-center">
+                افزودن تصویر جدید
+            </div>
+        </div>
+    </div>
+</nav>
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="form-row" id="createform">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align:center;" asp-for="title"></label>
+            <input class="form-control" asp-for="title" />
+            <span class="text-danger" asp-validation-for="title"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align:center;" asp-for="link"></label>
+            <input class="form-control" asp-for="link" />
+            <span class="text-danger" asp-validation-for="link"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align:center;" asp-for="imagename"></label>
+            <input type="file" class="form-control" name="image" />
+            <span class="text-danger" asp-validation-for="imagename"></span>
+        </div>
+    </div>
+    <input type="submit" value="ثبت" class="btn btn-success btn-lg" /> |
+    <a class="btn btn-dark " asp-action="Index">بازگشت</a>
+</form>

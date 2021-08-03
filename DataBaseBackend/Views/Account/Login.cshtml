@@ -1,0 +1,48 @@
+﻿@model DataBaseBackend.Login
+
+@{
+    Layout = null;
+}
+<title>ورود</title>
+    <link rel="stylesheet" href="~/css/bootstrap/bootstrap.min.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/bootstrap/bootstrap.min.js"></script>
+<link href="/css/login-style.css" rel="stylesheet">
+
+
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <img src="/Pics/icons8-male-user-100.png" id="icon" alt="User Icon" />
+            <p>ورود به حساب کاربری</p>
+        </div>
+
+        <hr class="col-11" style="margin-left: auto; margin-right: auto;">
+
+        <!-- Login Form -->
+        <form class="login-form" asp-action="Login">
+            <input hidden name="ReturnUrl" value="@ViewBag.url" />
+            <div class="login-part col-11">
+                <label style="text-align: right;">نام کاربری / ایمیل</label>
+                <input type="text" id="login" class="fadeIn second" asp-for="username" placeholder="مثال: exampleUser یا example@yahoo.com">
+                <span class="warning" id="warning-email-phone" asp-validation-for="username">
+                </span>
+            </div>
+            <div class="login-part col-11">
+                <label style="justify-self: right;">رمز عبور</label>
+                <input type="password" id="password" class="fadeIn third" asp-for="password" placeholder="مثال: 12345678">
+                <span class="warning" id="warning-pass" asp-validation-for="password">
+                </span>
+            </div>
+            <input type="submit" class="fadeIn fourth" value="ورود">
+        </form>
+
+        <div id="formFooter">
+            <a class="underlineHover1" href="/Register">جهت ثبت نام وارد این بخش شوید</a>
+            <a class="underlineHover2" href="/ForgetPass">فراموشی رمز عبور</a>
+        </div>
+
+    </div>
+</div>

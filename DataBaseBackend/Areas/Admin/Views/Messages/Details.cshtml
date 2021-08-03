@@ -1,0 +1,114 @@
+﻿@model DataBaseBackend.Message
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex justify-content-center">
+                مشاهده پیام @Model.id
+            </div>
+        </div>
+    </div>
+</nav>
+<div>
+    <dl class="row">
+        @if (ViewBag.res)
+        {
+            if (Model.senderemail != null)
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(item => item.sendername)
+                </dt>
+                <dd class="col-sm-10">
+                    @Model.sendername
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(item => item.senderlastname)
+                </dt>
+                <dd class="col-sm-10">
+                    @Model.senderlastname
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(item => item.senderemail)
+                </dt>
+                <dd class="col-sm-10">
+                    @Model.senderemail
+                </dd>
+            }
+            else
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(item => item.user2id)
+                </dt>
+                <dd class="col-sm-10">
+                    @if (Model.User2.Person != null)
+                    {
+                        <span>@(Model.User2.Person.name+" "+Model.User2.Person.lastname)</span>
+                    }
+                    else
+                    {
+                        <span>@Model.User2.email</span>
+                    }
+                </dd>
+            }
+
+        }
+        else
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(item => item.userid)
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.User.Person != null)
+                {
+                    <span>@(Model.User.Person.name+" "+Model.User.Person.lastname)</span>
+                }
+                else
+                {
+                    <span>@Model.User.email</span>
+                }
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(item => item.text)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.text
+        </dd>
+        <dt class="col-sm-2">
+            تاریخ ارسال
+        </dt>
+        <dd class="col-sm-10">
+            @DateDifference.MiladiToShamsi(Model.createdate)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (ViewBag.res && Model.senderemail == null)
+    {
+        <div>
+            <a class="btn btn-info" asp-action="Create" asp-route-userid="@Model.user2id">ارسال پاسخ</a> |
+            <a class="btn btn-dark" asp-action="Index">بازگشت</a>
+        </div>
+    }
+    else if (ViewBag.res && Model.senderemail != null)
+    {
+        <div>
+            <a class="btn btn-info" asp-action="SendEmail" asp-route-email="@Model.senderemail">ارسال ایمیل</a> |
+            <a class="btn btn-dark" asp-action="Index">بازگشت</a>
+        </div>
+    }
+    else
+    {
+        <a class="btn btn-dark" asp-action="IndexSend">بازگشت</a>
+    }
+
+</div>

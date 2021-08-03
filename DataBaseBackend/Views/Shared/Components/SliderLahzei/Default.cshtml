@@ -1,0 +1,35 @@
+﻿@model List<Product>
+    <!-- start of pishnahad lahze ee area -->
+    <div class="upper-product  upper-product-right col-3">
+        <div class="random-product">
+            <h5 style="margin-right: 10px; font-weight: 700; margin-bottom: 10px;">پیشنهاد لحظه ای</h5>
+            <div style="background-color: rgb(199, 199, 199); width: 100%; height: 2px; margin-bottom: 20px;">
+            </div>
+            <div class="round-time-bar" data-style="smooth" style="--duration: 7;"></div>
+            <div class="swiper-container swiper-container-random">
+                <div class="swiper-wrapper">
+                    @for (int i = 0; i < Model.Count(); i++)
+                    {
+                        <div class="swiper-slide">
+                            <a href="/Products/@Model[i].id">
+                                <div class="random-product-card">
+                                    <div class="random-card-img-holder">
+                                        <img class="random-img-card" src="/Files/Thumb/@Model[i].imagename">
+                                    </div>
+                                    <div class="random-card-price">@ViewBag.t[i].ToString("###/000") تومان</div>
+                                    <div class="random-card-text">
+                                        <h6>@Model[i].title</h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev swiper-button-black"></div>
+                <div class="swiper-button-next swiper-button-black"></div>
+            </div>
+        </div>
+    </div>
+    <!-- end of pishnahad lahze ee area -->

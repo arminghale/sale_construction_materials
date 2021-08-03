@@ -1,0 +1,76 @@
+﻿@model DataBaseBackend.Register1
+@{ 
+    Layout = null;
+}
+
+<title> ثبت نام </title>
+<link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="/js/bootstrap/bootstrap.min.js"></script>
+<link href="/css/register-step1-style.css" rel="stylesheet">
+
+<div class="wrapper fadeInDown col-8">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <div id="formFooter">
+            <h4 class="underlineHover1" href="#">ثبت نام</h4>
+            <h6 class="underlineHover1" href="#">اطلاعات حساب کاربری</h6>
+        </div>
+        <!-- Icon -->
+        <div style="display: flex; flex-direction: row; justify-content: center; margin-top: 30px;">
+            <div class="col-2"></div>
+            <div class="fadeIn first col-1" style="border-bottom: 3px solid #01AAFF; padding-bottom: 2px;">
+                مرحله ۱
+            </div>
+            <div class="col-2">
+                <hr>
+            </div>
+            <div class="fadeIn first col-1">
+                مرحله ۲
+            </div>
+            <div class="col-2">
+                <hr>
+            </div>
+            <div class="fadeIn first col-1">
+                مرحله ۳
+            </div>
+            <div class="col-2"></div>
+        </div>
+
+        <!-- Login Form -->
+        <form class="login-form" asp-action="Register1">
+            <div style="display: flex; flex-direction: row;">
+                <div class="login-part col-5">
+                    <label>ایمیل</label>
+                    <input type="text" id="login" class="fadeIn second" asp-for="email"
+                           placeholder="مثال: example@gmail.com">
+                    <span asp-validation-for="email" class="warning" id="warning-pass">
+                    </span>
+                </div>
+                <div class="login-part col-5">
+                    <label>نام کاربری</label>
+                    <input type="text" id="password" class="fadeIn third" asp-for="username" placeholder="مثال: pouriakordy">
+                    <span asp-validation-for="username" class="warning" id="warning-repeat">
+                    </span>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: row;">
+                <div class="login-part col-5">
+                    <label>رمز عبور</label>
+                    <input type="password" id="login" class="fadeIn second" asp-for="password"
+                           placeholder="مثال: 12345678">
+                    <span asp-validation-for="password" class="warning" id="warning-pass">
+                    </span>
+                </div>
+                <div class="login-part col-5">
+                    <label>تکرار رمز عبور</label>
+                    <input type="password" id="password" class="fadeIn third" asp-for="repassword" placeholder="مثال: 12345678">
+                    <span asp-validation-for="repassword" class="warning" id="warning-repeat">
+                    </span>
+                </div>
+            </div>
+
+            <input type="submit" class="fadeIn submit fourth col-6" value=ادامه>
+        </form>
+
+    </div>
+</div>

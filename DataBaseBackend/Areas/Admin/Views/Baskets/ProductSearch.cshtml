@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DataBaseBackend.Product>
+
+<div class="col-md-12" id="Product">
+    <form class="form-inline" asp-action="Index">
+        <div class="form-group mx-sm-3 mb-2">
+            <select onchange="pr()" id="group" type="text" class="form-control"  asp-items="ViewBag.prgroupid">
+                <option value="-1">همه</option>
+            </select>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <select id="no" type="text" class="form-control">
+                <option value="-1">جستجو براساس</option>
+                <option value="0">نام کالا</option>
+                <option value="1">کد کالا</option>
+            </select>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <input type="text" class="form-control" placeholder="جستجو" id="search" name="search">
+        </div>
+        <button type="button" class="btn btn-primary mb-2" onclick="pr()">جستجو</button>
+    </form>
+    <br>
+    <!-- device's list -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">
+                    تصویر
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.title)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tbod">
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <img src="/Files/Thumb/@item.imagename" style="max-width:60px" data-preview-image="/Files/Thumb/@item.imagename"/>
+                </td>
+                <td>
+                    @item.title
+                </td>
+                <td>
+                    <div>
+                        <button type="button" class="btn btn-warning" onclick="add('@item.id','@item.count','@item.title')" >افزودن</button>
+                    </div>
+                </td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

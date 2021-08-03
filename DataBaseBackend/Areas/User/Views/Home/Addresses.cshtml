@@ -1,0 +1,261 @@
+﻿@model IEnumerable<Address>
+@section css{
+    <link href="~/css/user-panel-change-address-style.css" rel="stylesheet" />
+}
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div>
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                @*<a href="#" class="text-decoration-none" style="color: #292929;">
+                        <div class="profile-holder">
+                            <img src="pictures/81-ShGBC4yL.jpg"
+                                 style="width: 50px; height: 50px; border-radius: 50px; border: 1px solid black;">
+                        </div>
+                    </a>*@
+                <div class="info">
+                    @if (User.HasClaim(w => w.Type == "name"))
+                    {
+                        <a href="#" class="d-block">@User.Claims.FirstOrDefault(w => w.Type == "name").Value</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="d-block">@User.Identity.Name</a>
+                    }
+
+                    @*<span class="badge badge-danger navbar-badge">3</span>*@
+                </div>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2" style="text-align:right">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+                    <li class="nav-item has-treeview menu-open">
+                        <ul class="nav nav-treeview" id="menuside">
+                            <li class="nav-item">
+                                <a href="/User/Orders" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>سفارشات</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/Messages" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>پیام ها</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/ChangeInfo" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر اطلاعات کاربری</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/Addresses" class="nav-link active">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر و مشاهده آدرس ها</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/ChangePass" class="nav-link ">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر پسورد حساب</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Logout" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>خروج از حساب</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+    </div>
+    <!-- /.sidebar -->
+</aside>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <h1 class="m-0 text-dark">تغییر و مشاهده آدرس ها</h1>
+                <!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="last-products">
+                <div class="inline" style="margin-left: auto; margin-right: auto;">
+                    <h6 class="text-dark col-12" style="text-align: center;">آدرس ها</h6>
+                </div>
+                <div style="background-color: rgb(199, 199, 199); width: 95%; height: 1.5px; margin-top: 10px; margin-bottom: 10px; margin-left: auto; margin-right: auto;">
+                </div>
+                @foreach (var item in Model)
+                {
+                    <div class="inline-column-light">
+                        <div class="inline-part-value col-9">
+                            <p id="kala-name">@(item.ostan+"-"+item.shahr+"-"+item.text + "-" +item.codeposti+"--"+item.girandename+" "+item.girandelastname+"("+item.girandephonenumber+")")</p>
+                        </div>
+                        <div class="inline-part-value col-2" style="margin-right: 15px;">
+                            <a href="/User/Home/AddressesDelete/?id=@item.id" class="kala-desc-light">حذف</a>
+                        </div>
+                    </div>
+                }
+                <hr>
+
+                <form method="post" action="/User/Addresses" class="login-part" id="special-part">
+                    <div class="inline" style="margin-left: auto; margin-right: auto;">
+                        <h6 class="text-dark col-12" style="text-align: center;">افرودن آدرس جدید</h6>
+                    </div>
+                    <div style="background-color: rgb(199, 199, 199); width: 100%; height: 1.5px; margin-top: 5px; margin-bottom: 10px;">
+                    </div>
+                    <input hidden value="@ViewBag.personid" name="personid" />
+                    <div style="display: flex; flex-direction: row; margin-bottom: 12px;">
+                        <div class="login-part col-5">
+                            <label>استان</label>
+                            <div style="height: 5px;"></div>
+                            <select id="ostan" name="ostan" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option value="-1">انتخاب کنید</option>
+                            </select>
+                        </div>
+                        <div class="login-part col-5 ">
+                            <label>شهر</label>
+                            <div style="height: 5px;"></div>
+                            <select id="shahr" name="shahr" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option value="-1" selected>انتخاب کنید</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: row; margin-bottom: 12px;">
+                        <div class="login-part col-5">
+                            <label>گیرنده</label>
+                            <div style="height: 5px;"></div>
+                            <select name="girande" id="girande" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option value="0" >خودم</option>
+                                <option value="1" selected>شخص دیگر</option>
+                            </select>
+                        </div>
+                        <div class="login-part col-5">
+                            <label>کد پستی</label>
+                            <div style="height: 5px;"></div>
+                            <input type="text" id="password" class="third" name="codeposti"
+                                   placeholder="مثال: 4966666666">
+                            <span class="warning" id="warning-postal-code">
+                            </span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: row; margin-bottom: 12px;" id="girandenl">
+                        <div class="login-part col-5">
+                            <label>نام گیرنده</label>
+                            <div style="height: 5px;"></div>
+                            <input type="text"  class="second" name="girandename"
+                                   placeholder="مثال: پوریا">
+                            <span class="warning" id="warning-fname">
+                            </span>
+                        </div>
+                        <div class="login-part col-5">
+                            <label>نام خانوادگی گیرنده</label>
+                            <div style="height: 5px;"></div>
+                            <input type="text"  class="third" name="girandelastname"
+                                   placeholder="مثال: محمدی">
+                            <span class="warning" id="warning-lname">
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="login-part col-11" style="margin-bottom: 12px;">
+                        <label>آدرس</label>
+                        <input type="text" class="col-12" id="pass-1" class="fadeIn first" name="text"
+                               placeholder="مثال: خیابان ولیعصیر - کوچه عدالت 26 - پلاک 15"
+                               style="margin-left: auto; margin-right: auto;">
+                        <span class="warning" id="warning-lname">
+                        </span>
+                    </div>
+
+                    <div class="login-part col-7" style="margin-bottom: 12px;" id="girandep">
+                        <label>شماره همراه گیرنده</label>
+                        <div style="height: 5px;"></div>
+                        <input type="text"  class="third" name="girandephonenumber"
+                               placeholder="مثال: 09101122334">
+                        <span class="warning" id="warning-address">
+                        </span>
+                    </div>
+
+                    <input type="submit" class="fadeIn submit fourth col-5" value=تایید>
+                </form>
+            </div>
+            <!--/. container-fluid -->
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var jsonState;
+            var URL = '/api/State';
+            var req = new XMLHttpRequest();
+            req.open('GET', URL);
+            req.responseType = 'json';
+            req.send();
+            req.onload = function () {
+                var resp = req.response;
+                jsonState = resp;
+                for (var i = 0; i < jsonState.length; i++) {
+                    var op = $("<option>").html(jsonState[i].name);
+                    op.val(jsonState[i].id);
+                    $('#ostan').append(op);
+                }
+            }
+        });
+        $('#ostan').change(function () {
+            $("#shahr > option").remove();
+            var state = $("#ostan > option:selected").val()
+            var jsonCity;
+            var URL2 = '/api/City';
+            var req2 = new XMLHttpRequest();
+            req2.open('GET', URL2);
+            req2.responseType = 'json';
+            req2.send();
+            req2.onload = function () {
+                var resp2 = req2.response;
+                jsonCity = resp2;
+                for (var i = 0; i < jsonCity.length; i++) {
+                    if (jsonCity[i].province_id == state) {
+                        var op = $("<option>").html(jsonCity[i].name);
+                        op.val(jsonCity[i].id);
+                        //$('#shahr').append("<option value=" + jsonCity[i].name + ">" + jsonCity[i].name + "<option/>")
+                        $('#shahr').append(op);
+                    }
+
+                }
+            }
+
+        });
+        $('#girande').change(function () {
+            var id = $("#girande > option:selected").val()
+            if (id == 0) {
+                $('#girandenl').css({"display":"none"})
+                $('#girandep').css({"display":"none"})
+            } else {
+                $('#girandenl').css({ "display": "" })
+                $('#girandep').css({ "display": "" })
+            }
+        });
+    </script>
+}

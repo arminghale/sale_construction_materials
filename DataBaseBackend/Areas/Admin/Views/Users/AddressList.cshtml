@@ -1,0 +1,67 @@
+﻿@model IEnumerable<DataBaseBackend.Address>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="navbar-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="d-flex justify-content-center">
+                    آدرس های کاربر @ViewBag.id
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div>
+        <dl class="row">
+            @foreach (var item in Model)
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(item => item.ostan)
+                </dt>
+                <dd class="col-sm-10">
+                    @item.ostan
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(item => item.shahr)
+                </dt>
+                <dd class="col-sm-10">
+                    @item.shahr
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(item => item.text)
+                </dt>
+                <dd class="col-sm-10">
+                    @item.text
+                </dd>
+                <dt class="col-sm-2">
+                    گیرنده
+                </dt>
+                <dd class="col-sm-10">
+                    @(item.girandename+" "+item.girandelastname+" - "+item.girandephonenumber)
+                </dd>
+                <dt class="col-sm-2">
+                    
+                </dt>
+                <dd class="col-sm-10">
+                    <a class="btn btn-danger" asp-action="AddressDelete" asp-route-id="@item.id">حذف</a>
+                </dd>
+                <dt class="col-sm-2">
+                    <hr />
+                </dt>
+                <dd class="col-sm-10">
+                    <hr />
+                </dd>
+            }
+        </dl>
+    </div>
+    <div>
+        <a class="btn btn-primary" asp-action="AddressCreate" asp-route-personid="@ViewBag.id">افزودن آدرس</a> | 
+        <a class="btn btn-dark" asp-action="Index">بازگشت</a>
+    </div>

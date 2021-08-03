@@ -1,0 +1,51 @@
+﻿@model DataBaseBackend.PrGroup
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="navbar-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="d-flex justify-content-center">
+                    جزئیات گروه @Model.id
+                </div>
+            </div>
+        </div>
+    </nav>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.vahed)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.vahed)
+        </dd>
+        <dt class="col-sm-2">
+            فیلد ها
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var item in Model.Fields)
+            {
+                @item.title
+                <br />
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.id">تغییر</a> |
+    <a class="btn btn-dark " asp-action="Index">بازگشت</a>
+</div>

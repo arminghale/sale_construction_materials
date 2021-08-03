@@ -1,0 +1,50 @@
+﻿@model Basket
+@section css{
+    <link href="~/css/shopping-cart-submit-style.css" rel="stylesheet" />
+}
+
+<div class="container col-11">
+    <!-- start of last-products-list area -->
+    <div class="last-products">
+        <div class="inline-column-list">
+            <p style="text-align: center; margin-bottom: 0px; border-top-left-radius: 10px; border-top-right-radius: 10px; padding-top: 2px; border-bottom: 1px solid #C8C8C8;">
+                لیست سفارش ها:
+            </p>
+            <div class="inline-row">
+                <p class="col-6" style="text-align: center;">نام محصول</p>
+                <p class="col-6" style="text-align: center;">تعداد سفارش</p>
+            </div>
+            @foreach (var item in Model.BasketItems)
+            {
+                <div class="inline-row-dark">
+                    <p class="col-6" style="text-align: center;">@item.Product.title</p>
+                    <p class="col-6" style="text-align: center;">@item.count</p>
+                </div>
+
+            }
+        </div>
+
+        <div class="inline-row" style="margin-top: 7px; margin-bottom: 0px;">
+            <p class="col-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;"> مدت آماده سازی: </p>
+            <p class="col-3" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">@ViewBag.ready روز</p>
+            <p class="col-2" style="text-align: center; padding-top: 3px;">|</p>
+            <p class="col-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;"> مدت ارسال: </p>
+            <p class="col-3" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">@ViewBag.send روز</p>
+        </div>
+        <div class="inline-row" style="margin-top: 7px; margin-bottom: 0px;">
+            <p class="col-2" style="text-align: center; margin-top: 5px; margin-bottom: 5px;"> شماره تراکنش: </p>
+            <p class="col-3" style="text-align: center; margin-top: 5px; margin-bottom: 5px;">@Model.paymentid</p>
+        </div>
+
+        <div class="inline-row">
+            <div class="col-4"></div>
+            <a href="/">
+                <div class="submit">
+                    تایید اطلاعات
+                </div>
+            </a>
+            <div class="col-4"></div>
+        </div>
+    </div>
+</div>
+

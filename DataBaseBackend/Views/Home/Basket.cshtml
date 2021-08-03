@@ -1,0 +1,146 @@
+﻿@model Basket
+@section css{
+    <link href="~/css/shopping-cart-style.css" rel="stylesheet" />
+}
+
+<div class="container col-11">
+    <!-- start of last-products-list area -->
+    <div class="last-products">
+        <div>
+            <div class="inline-column">
+                <div class="inline-part col-3">
+                    <p>نام محصول</p>
+                </div>
+                <div class="inline-part col-2">
+                    <a>توضیحات محصول</a>
+                </div>
+                <div class="inline-part col-2">
+                    <p>تعداد محصول</p>
+                </div>
+                <div class="inline-part col-2">
+                    <p>حذف محصول</p>
+                </div>
+            </div>
+
+            <div style="border-radius: 10px; width: 95%; margin-left: auto; margin-right: auto;">
+                @for (int i = 0; i < Model.BasketItems.Count(); i++)
+                {
+                    if (i % 2 == 0)
+                    {
+                        <div class="inline-column-light">
+                            <div class="inline-part-value col-3">
+                                <p id="kala-name">@Model.BasketItems[i].Product.title</p>
+                            </div>
+                            <div class="inline-part-value col-2">
+                                <a href="/Products/@Model.BasketItems[i].productid" class="kala-desc-light">نمایش مشخصات</a>
+                            </div>
+                            <div class="inline-part-value inline-row col-2" style="direction: ltr; padding-top: 7px;">
+                                <form>
+                                    <div class="value-button" id="decrease" onclick="decreaseValue(event,'@Model.BasketItems[i].id')"
+                                         value="Decrease Value">
+                                        <p>-</p>
+                                    </div>
+                                    <input readonly type="number" value="@Model.BasketItems[i].count" />
+                                    <div class="value-button" id="increase" onclick="increaseValue(event, '@Model.userid', '@Model.BasketItems[i].productid')"
+                                         value="Increase Value">
+                                        <p style="margin: 0px; padding: 0px; height: 18px;">+</p>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="inline-part-value col-2">
+                                <a href="/BasketItemDelete/@Model.BasketItems[i].id" class="remove-light">
+                                    حذف
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="inline-column-dark">
+                            <div class="inline-part-value col-3">
+                                <p id="kala-name">@Model.BasketItems[i].Product.title</p>
+                            </div>
+                            <div class="inline-part-value col-2">
+                                <a href="/Products/@Model.BasketItems[i].productid" class="kala-desc-light">نمایش مشخصات</a>
+                            </div>
+                            <div class="inline-part-value inline-row col-2" style="direction: ltr; padding-top: 7px;">
+                                <form>
+                                    <div class="value-button" id="decrease" onclick="decreaseValue(event,'@Model.BasketItems[i].id')"
+                                         value="Decrease Value">
+                                        <p>-</p>
+                                    </div>
+                                    <input readonly type="number" value="@Model.BasketItems[i].count" />
+                                    <div class="value-button" id="increase" onclick="increaseValue(event, '@Model.userid', '@Model.BasketItems[i].productid')"
+                                         value="Increase Value">
+                                        <p style="margin: 0px; padding: 0px; height: 18px;">+</p>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="inline-part-value col-2">
+                                <a href="/BasketItemDelete/@Model.BasketItems[i].id" class="remove-light">
+                                    حذف
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
+
+                <form style="display: flex; flex-direction: row; direction: ltr; margin-top: 10px;" id="ok" method="post" action="/BasketOK">
+                    <input hidden value="@Model.userid" name="id" />
+                    <a href="#" onclick="document.getElementById('ok').submit();">
+                        <div class="submit-all">
+                            نهایی کردن سفارش
+                        </div>
+                    </a>
+
+                    <div style="width: 270px;"></div>
+
+                    <div class="login-part col-5">
+                        <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="address">
+                            <option selected>آدرس مورد نظر خود را انتخاب کنید</option>
+                            @foreach (var item in Model.User.Person.Addresses)
+                            {
+                                <option value="@item.id">@item.ostan - @item.shahr - @item.text - @item.codeposti --- @item.girandename @item.girandelastname - @item.girandephonenumber</option>
+
+                            }
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        function increaseValue(e, userid, prid) {
+            $.ajax({
+                type: "POST",
+                url: "/BasketAdd",
+                data: { userid: userid, prid: prid, tedad: 1 }
+            }).done(function (result) {
+                if (result.message != null) {
+                    alert(result.message)
+                } else {
+                    var value = $(e.target).parent().prev().val();
+                    value++;
+                    $(e.target).parent().prev().val(value);
+                }
+
+            });
+        }
+
+        function decreaseValue(e, id) {
+            $.ajax({
+                type: "POST",
+                url: "/BasketDown",
+                data: { id: id }
+            }).done(function (result) {
+                var value = $(e.target).parent().next().val();
+                value -= 1
+                $(e.target).parent().next().val(value);
+            });
+        }
+    </script>
+}

@@ -1,0 +1,84 @@
+﻿@model DataBaseBackend.Basket
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Basket</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <label asp-for="userid" class="control-label"></label>
+                <select asp-for="userid" class="form-control" asp-items="ViewBag.userid"></select>
+                <span asp-validation-for="userid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="addressid" class="control-label"></label>
+                <select asp-for="addressid" class="form-control" asp-items="ViewBag.addressid"></select>
+                <span asp-validation-for="addressid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="total" class="control-label"></label>
+                <input asp-for="total" class="form-control" />
+                <span asp-validation-for="total" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ispay" /> @Html.DisplayNameFor(model => model.ispay)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="isready" /> @Html.DisplayNameFor(model => model.isready)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="issend" /> @Html.DisplayNameFor(model => model.issend)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="iscansel" /> @Html.DisplayNameFor(model => model.iscansel)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="createdate" class="control-label"></label>
+                <input asp-for="createdate" class="form-control" />
+                <span asp-validation-for="createdate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="paydate" class="control-label"></label>
+                <input asp-for="paydate" class="form-control" />
+                <span asp-validation-for="paydate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="senddate" class="control-label"></label>
+                <input asp-for="senddate" class="form-control" />
+                <span asp-validation-for="senddate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="paymentid" class="control-label"></label>
+                <input asp-for="paymentid" class="form-control" />
+                <span asp-validation-for="paymentid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

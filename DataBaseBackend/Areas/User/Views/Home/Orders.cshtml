@@ -1,0 +1,229 @@
+﻿@model IEnumerable<Basket>
+@section css{
+    <link href="~/css/user-panel-sefaresh-style.css" rel="stylesheet" />
+}
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div>
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                @*<a href="#" class="text-decoration-none" style="color: #292929;">
+                        <div class="profile-holder">
+                            <img src="pictures/81-ShGBC4yL.jpg"
+                                 style="width: 50px; height: 50px; border-radius: 50px; border: 1px solid black;">
+                        </div>
+                    </a>*@
+                <div class="info">
+                    @if (User.HasClaim(w => w.Type == "name"))
+                    {
+                        <a href="#" class="d-block">@User.Claims.FirstOrDefault(w => w.Type == "name").Value</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="d-block">@User.Identity.Name</a>
+                    }
+
+                    @*<span class="badge badge-danger navbar-badge">3</span>*@
+                </div>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2" style="text-align:right">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+                    <li class="nav-item has-treeview menu-open">
+                        <ul class="nav nav-treeview" id="menuside">
+                            <li class="nav-item">
+                                <a href="/User/Orders" class="nav-link active">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>سفارشات</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/Messages" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>پیام ها</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/ChangeInfo" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر اطلاعات کاربری</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/Addresses" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر و مشاهده آدرس ها</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/ChangePass" class="nav-link ">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر پسورد حساب</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Logout" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>خروج از حساب</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+    </div>
+    <!-- /.sidebar -->
+</aside>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">سفارشات</h1>
+                </div><!-- /.col -->
+                <!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            @foreach (var item in Model)
+            {
+                <div class="last-products">
+                    <div style="display: flex; flex-direction: row;">
+                        <div class="col-3 inline" style="margin-right: 28px;">
+                            <div class="inline" style="margin-right: auto; margin-left: auto;">
+                                <h6 class="text-dark"> تاریخ سفارش: </h6>
+                                <h6 class="text-dark" style="margin-right: 20px;"> @DateDifference.MiladiToShamsi(item.paydate).Split(' ')[0] </h6>
+                            </div>
+                        </div>
+
+                        <h6 class="text-dark col-1" style="text-align: center;">|</h6>
+
+                        <div class="col-3 inline">
+                            <div class="inline" style="margin-right: auto; margin-left: auto;">
+                                <h6 class="text-dark"> مبلغ نهایی: </h6>
+                                @if (item.total > 100000)
+                                {
+                                    <h6 class="text-dark" style="margin-right: 20px;"> @item.total.ToString("###/###/000") </h6>
+                                }
+                                else
+                                {
+                                    <h6 class="text-dark" style="margin-right: 20px;"> @item.total.ToString("###/000") </h6>
+                                }
+
+                            </div>
+                        </div>
+
+                        <h6 class="text-dark col-1" style="text-align: center;">|</h6>
+
+                        <div class="col-3 inline">
+                            <div class="inline" style="margin-right: auto; margin-left: auto;">
+                                <h6 class="text-dark"> وضعیت سفارش: </h6>
+                                @if (item.ispay && !item.isready && !item.issend && !item.iscansel)
+                                {
+                                    <h6 class="text-dark" style="margin-right: 20px;"> درحال آماده سازی </h6>
+                                }
+                                else if (item.ispay && item.isready && !item.issend && !item.iscansel)
+                                {
+                                    <h6 class="text-dark" style="margin-right: 20px;"> آماده ارسال </h6>
+                                }
+                                else if (item.ispay && item.isready && item.issend && !item.iscansel)
+                                {
+                                    <h6 class="text-dark" style="margin-right: 20px;"> ارسال شده </h6>
+                                }
+                                else if (item.iscansel)
+                                {
+                                    <h6 class="text-dark" style="margin-right: 20px;"> کنسل شده </h6>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color: rgb(199, 199, 199); width: 95%; height: 1.5px; margin-top: 10px; margin-bottom: 10px; margin-left: auto; margin-right: auto;">
+                    </div>
+
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <!-- slide 1 in last-products -->
+                            <div class="swiper-slide">
+                                <!-- last-products div -->
+                                <div class="col-12 list-of-card">
+                                    <!-- product in last-products -->
+                                    @foreach (var item2 in item.BasketItems)
+                                    {
+                                        <div class="product-card">
+                                            <a href="/Products/@item2.productid">
+                                                <div class="card-img-holder">
+                                                    <img class="img-card" src="/Files/Thumb/@item2.Product.imagename">
+                                                </div>
+                                                <div class="inline">
+                                                    <div class="card-price col-6">مبلغ سفارش: </div>
+                                                    @if (item2.mablagh > 100000)
+                                                    {
+                                                        <div class="card-price col-6">@item2.mablagh.ToString("###/###/000")</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="card-price col-6">@item2.mablagh.ToString("###/000")</div>
+                                                    }
+
+                                                </div>
+
+                                                <div class="inline">
+                                                    <div class="card-price col-7"> تعداد سفارش: </div>
+                                                    <div class="card-price col-5">@item2.count</div>
+                                                </div>
+
+                                                <div class="card-text">
+                                                    <p>@item2.Product.title</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    }
+
+                                </div>
+                                <div style="background-color: rgb(199, 199, 199); width: 95%; height: 1.5px; margin-bottom: 11px; margin-left: auto; margin-right: auto;">
+                                </div>
+                                <div class="inline">
+                                    <div class="col-5">
+                                        <p style="color: red; font-size: 11px; margin-right: 25px; margin-top: -2px;">* قیمت ها به تومان است</p>
+                                    </div>
+                                    <a href="/User/GetFaktor/?id=@item.id" class="col-2">
+                                        <div class="submit">
+                                            مشاهده فاکتور
+                                        </div>
+                                    </a>
+                                    <div class="col-5"></div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+
+                            </div>
+
+                        </div>
+
+                        <!-- If we need navigation buttons -->
+                        <div class="swiper-button-prev swiper-button-black"></div>
+                        <div class="swiper-button-next swiper-button-black"></div>
+                    </div>
+                </div>
+            }
+        </div>
+        <!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>

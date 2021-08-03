@@ -1,0 +1,153 @@
+﻿@model DataBaseBackend.Register2
+
+@{
+    Layout = null;
+}
+<title> اطلاعات کاربری </title>
+<link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="/js/bootstrap/bootstrap.min.js"></script>
+<link href="/css/register-step3-style.css" rel="stylesheet">
+
+<div class="wrapper fadeInDown col-8">
+    <div id="formContent">
+        <div id="formHeader">
+            <h4 class="underlineHover1" href="#">ثبت نام</h4>
+            <h6 class="underlineHover1" href="#">اطلاعات شخصی</h6>
+        </div>
+        <div style="display: flex; flex-direction: row; justify-content: center; margin-top: 30px; margin-bottom: 20px;">
+            <div class="col-2"></div>
+            <div class="fadeIn first col-1">
+                مرحله ۱
+            </div>
+            <div class="col-2">
+                <hr>
+            </div>
+            <div class="fadeIn first col-1">
+                مرحله ۲
+            </div>
+            <div class="col-2">
+                <hr>
+            </div>
+            <div class="fadeIn first col-1" style="border-bottom: 3px solid #01AAFF; padding-bottom: 2px;">
+                مرحله ۳
+            </div>
+            <div class="col-2"></div>
+        </div>
+
+        <!-- Login Form -->
+        <form class="login-form" asp-action="Register2">
+            <input name="id" value="@ViewBag.id" hidden class="form-control" />
+            <div style="display: flex; flex-direction: row;">
+                <div class="login-part col-5">
+                    <label>نام</label>
+                    <div style="height: 5px;"></div>
+                    <input type="text" id="login" class="fadeIn second" asp-for="name" placeholder="مثال: پوریا">
+                    <span asp-validation-for="name" class="warning" id="warning-name">
+                    </span>
+                </div>
+                <div class="login-part col-5">
+                    <label>نام خانوادگی</label>
+                    <div style="height: 5px;"></div>
+                    <input type="text" id="password" class="fadeIn third" asp-for="lastname" placeholder="مثال: محمدی">
+                    <span asp-validation-for="lastname" class="warning" id="warning-fname">
+                    </span>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: row;">
+                <div class="login-part col-5">
+                    <label>شماره تماس</label>
+                    <div style="height: 5px;"></div>
+                    <input type="text" id="login" class="fadeIn second" asp-for="phonenumber" placeholder="مثال: 09333333333">
+                    <span asp-validation-for="phonenumber" class="warning" id="warning-phone">
+                    </span>
+                </div>
+                <div class="login-part col-5">
+                    <label>کد پستی</label>
+                    <div style="height: 5px;"></div>
+                    <input type="text" id="password" class="fadeIn third" asp-for="codeposti" placeholder="مثال: 4966666666">
+                    <span asp-validation-for="codeposti" class="warning" id="warning-postal-code">
+                    </span>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: row;">
+                <div class="login-part col-5">
+                    <label>استان</label>
+                    <div style="height: 5px;"></div>
+                    <select id="ostan" class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="ostan">
+                    <option value="-1">انتخاب کنید</option>
+                    </select>
+                    <span asp-validation-for="ostan" class="warning" id="warning-postal-code">
+                    </span>
+                </div>
+                <div class="login-part col-5 ">
+                    <label>شهر</label>
+                    <div style="height: 5px;"></div>
+                    <select id="shahr" class="form-select form-select-sm" aria-label=".form-select-sm example" asp-for="shahr">
+                        <option value="-1">انتخاب کنید</option>
+                    </select>
+                    <span asp-validation-for="shahr" class="warning" id="warning-postal-code">
+                    </span>
+                </div>
+            </div>
+
+            <div class="login-part col-11">
+                <label>آدرس</label>
+                <input type="text" id="login" class="fadeIn second" asp-for="text" placeholder="مثال: خیابان ولیعصیر - کوچه عدالت 26 - پلاک 15">
+                <span asp-validation-for="text" class="warning" id="warning-postal-code">
+                </span>
+            </div>
+
+            <input type="submit" class="fadeIn submit fourth col-6" value=ثبت>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var jsonState;
+        var URL = '/api/State';
+        var req = new XMLHttpRequest();
+        req.open('GET', URL);
+        req.responseType = 'json';
+        req.send();
+        req.onload = function () {
+            var resp = req.response;
+            jsonState = resp;
+            for (var i = 0; i < jsonState.length; i++) {
+                var op = $("<option>").html(jsonState[i].name);
+                op.val(jsonState[i].id);
+                $('#ostan').append(op);
+            }
+        }
+    });
+    $('#ostan').change(function () {
+        $("#shahr > option").remove();
+        var state = $("#ostan > option:selected").val()
+        var jsonCity;
+        var URL2 = '/api/City';
+        var req2 = new XMLHttpRequest();
+        req2.open('GET', URL2);
+        req2.responseType = 'json';
+        req2.send();
+        req2.onload = function () {
+            var resp2 = req2.response;
+            jsonCity = resp2;
+            for (var i = 0; i < jsonCity.length; i++) {
+                if (jsonCity[i].province_id == state) {
+                    var op = $("<option>").html(jsonCity[i].name);
+                    op.val(jsonCity[i].id);
+                    //$('#shahr').append("<option value=" + jsonCity[i].name + ">" + jsonCity[i].name + "<option/>")
+                    $('#shahr').append(op);
+                }
+
+            }
+        }
+
+    });
+</script>
+
+

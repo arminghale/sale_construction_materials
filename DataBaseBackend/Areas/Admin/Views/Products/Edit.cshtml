@@ -1,0 +1,118 @@
+﻿@model DataBaseBackend.Product
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex justify-content-center">
+                تغییر کالا @Model.id
+            </div>
+        </div>
+    </div>
+</nav>
+<form asp-action="Edit" enctype="multipart/form-data">
+    <div class="form-row" id="createform">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input class="form-control" asp-for="id" hidden />
+        <input class="form-control" asp-for="imagename" hidden />
+        <input class="form-control" asp-for="createdate" hidden />
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align: center;">گروه کالا</label>
+            <select asp-for="prgroupid" class="form-control" asp-items="ViewBag.prgroupid"></select>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align: center;" asp-for="title"></label>
+            <input class="form-control" asp-for="title" />
+            <span class="text-danger" asp-validation-for="title"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align: center;" asp-for="price"></label>
+            <input class="form-control" asp-for="price" />
+            <span class="text-danger" asp-validation-for="price"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align: center;" asp-for="count"></label>
+            <input class="form-control" asp-for="count" />
+            <span class="text-danger" asp-validation-for="count"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align: center;" asp-for="readyday"></label>
+            <input class="form-control" asp-for="readyday" />
+            <span class="text-danger" asp-validation-for="readyday"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align: center;" asp-for="sendday"></label>
+            <input class="form-control" asp-for="sendday" />
+            <span class="text-danger" asp-validation-for="sendday"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align: center;">تگ</label>
+            <input class="form-control" name="tag" placeholder="مثال: ماسه-شن-دیوار" value="@ViewBag.tag" />
+        </div>
+
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align: center;" asp-for="text"></label>
+            <textarea class="form-control" asp-for="text"></textarea>
+            <span class="text-danger" asp-validation-for="text"></span>
+        </div>
+        <div class="form-group col-md-12">
+            <label class="control-label" style="font-weight: bold;text-align: center;">تصویر اصلی</label>
+            <img src="/Files/@Model.imagename" class="col-md-3" style="max-width:350px" onclick="window.open('/Files/@Model.imagename','_blank')" />
+            <input type="file" name="mainimage" />
+            <span class="text-danger" asp-validation-for="createdate"></span>
+        </div>
+        <div class="form-group col-md-12">
+            <input class="btn btn-info" type="button" value="افزودن گالری تصویر" onclick="addfield()" />
+        </div>
+        @if (ViewBag.gallery != null)
+        {
+            @foreach (var item in ViewBag.gallery)
+            {
+                <div class="form-group col-md-2">
+                    <label class="control-label col-md-10" style="font-weight: bold;text-align: center;">تصویر</label>
+                    <img src="/Files/Gallery/@item.imagename" class="col-md-12" style="max-width:150px" onclick="window.open('/Files/Gallery/@item.imagename','_blank')" />
+                    <input type="button" class="btn btn-danger mt-sm-2 mx-sm-2" value="حذف" onclick="deletegallery(event,@item.id)" />
+                    @*<input type="button" class="btn btn-outline-info mt-sm-2 mx-sm-2" value="آپلود" onclick="uploadfield(event)" />*@
+                </div>
+            }
+        }
+    </div>
+    <input type="submit" value="تغییر کالا" class="btn btn-success btn-lg" /> |
+    <a class="btn btn-warning " asp-action="Field" asp-route-id="@Model.id">فیلدها</a> |
+    <a class="btn btn-dark " asp-action="Index" asp-area="Admin">بازگشت</a>
+</form>
+
+
+@section Scripts{
+    <script>
+        function addfield() {
+            var field = "<div class='form-group col-md-3'><label class='control-label col-md-7' style ='font-weight: bold;text-align: center;'>تصویر</label><input name='gallery' class='form-control col-md-6' type='File' /><input type='button' class='btn btn-danger mt-sm-2 mx-sm-2' value='حذف' onclick='deletefield(event)'/></div >";
+            $("#createform").append(field);
+        }
+        function deletefield(e) {
+            $(e.target).parent().remove();
+        }
+        function deletegallery(e,id) {
+            $.ajax({
+                type: "GET",
+                url: "/Admin/Products/DeleteGallery/" + id,
+                data: {}
+            }).done(function (result) {
+                if (result) {
+                    $(e.target).parent().remove();
+                }
+            });
+        }
+        //function uploadfield(e) {
+        //    $(e.target).parent().remove();
+        //}
+    </script>
+}

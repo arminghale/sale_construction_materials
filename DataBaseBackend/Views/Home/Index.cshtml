@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "صفحه اصلی";
+}
+@section Css{ 
+    <link rel="stylesheet" type="text/css" href="/css/main-page-style.css">
+}
+<!-- start of container area -->
+
+<div class="container col-11">
+    <div class="upper-container">
+        @await Component.InvokeAsync("SliderLahzei")
+
+        @await Component.InvokeAsync("MainSlider")
+    </div>
+
+    <!-- start of last-products-list area -->
+    @await Component.InvokeAsync("SliderLast")
+
+    @await Component.InvokeAsync("SliderLastT")
+</div>
+
+<!-- end of container area -->

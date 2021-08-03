@@ -1,0 +1,65 @@
+﻿@model DataBaseBackend.Register1
+
+@{
+    Layout = null;
+}
+
+<title> فراموشی رمز عبور </title>
+<link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="/js/bootstrap/bootstrap.min.js"></script>
+<link href="/css/register-step2-style.css" rel="stylesheet">
+
+
+<div class="wrapper fadeInDown col-6">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <div id="formFooter">
+            <h4 class="underlineHover1" href="#">فراموشی رمز عبور</h4>
+            <h6 class="underlineHover1" href="#">رمز عبور جدید</h6>
+        </div>
+        <!-- Icon -->
+        <div style="display: flex; flex-direction: row; justify-content: center; margin-top: 30px;">
+            <div class="col-2"></div>
+            <div class="fadeIn first col-1">
+                مرحله ۱
+            </div>
+            <div class="col-2">
+                <hr>
+            </div>
+            <div class="fadeIn first col-1" >
+                مرحله ۲
+            </div>
+            <div class="col-2">
+                <hr>
+            </div>
+            <div class="fadeIn first col-1" style="border-bottom: 3px solid #01AAFF; padding-bottom: 2px;">
+                مرحله ۳
+            </div>
+            <div class="col-2"></div>
+        </div>
+
+        <!-- Login Form -->
+        <form class="login-form" asp-action="ForgetPass3">
+            <input name="email" value="@ViewBag.email" hidden class="form-control" />
+            <input name="activecode" value="@ViewBag.code" hidden class="form-control" />
+            <div style="display: flex; flex-direction: row;">
+                <div class="login-part col-5">
+                    <label>رمز عبور</label>
+                    <input type="password" id="login" class="fadeIn second" asp-for="password"
+                           placeholder="مثال: 12345678">
+                    <span class="warning" id="warning-pass" asp-validation-for="password">
+                    </span>
+                </div>
+                <div class="login-part col-5">
+                    <label>تکرار رمز عبور</label>
+                    <input type="password" id="password" class="fadeIn third" asp-for="repassword" placeholder="مثال: 12345678">
+                    <span class="warning" id="warning-repeat" asp-validation-for="repassword">
+                    </span>
+                </div>
+            </div>
+
+            <input type="submit" class="fadeIn submit fourth col-6" value=ثبت>
+        </form>
+
+    </div>
+</div>

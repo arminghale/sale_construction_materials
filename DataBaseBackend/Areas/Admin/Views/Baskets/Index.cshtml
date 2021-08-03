@@ -1,0 +1,143 @@
+﻿@model IEnumerable<DataBaseBackend.Basket>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex justify-content-center">
+                لیست سفارشات
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="alldevices">
+    <form class="form-inline" asp-action="Index">
+        <div class="form-group mx-sm-3 mb-2">
+            <select name="type" type="text" id="type" class="form-control">
+                <option value="-1">همه</option>
+                <option value="3">پرداخت شده</option>
+                <option value="0">ارسال شده</option>
+                <option value="1">بررسی شده</option>
+                <option value="2">کنسل شده</option>
+            </select>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <input type="text" class="form-control" placeholder="جستجو" name="search">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">جستجو</button>
+        <div class="mx-sm-3 mb-2">
+            <a asp-action="Create" class="btn btn-outline-success">ثبت سفارش جدید</a>
+        </div>
+    </form>
+    <br>
+    <!-- device's list -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">
+                    کد سفارش
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.total)
+                </th>
+                <th scope="col">
+                    وضعیت
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tbod">
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @item.id
+                </td>
+                <td>
+                    @if (item.total > 1000000)
+                    {
+                        @item.total.ToString("###/###/000")
+                    }
+                    else
+                    {
+                        @item.total.ToString("###/000")
+                    }
+
+                </td>
+                @if (item.ispay && !item.isready && !item.issend && !item.iscansel)
+                {
+                    <td>
+                        پرداخت شده
+                    </td>
+                }
+                else if (item.ispay && item.isready && !item.issend && !item.iscansel)
+                {
+                    <td>
+                        آماده ارسال
+                    </td>
+                }
+                else if (item.ispay && item.isready && item.issend && !item.iscansel)
+                {
+                    <td>
+                        ارسال شده
+                    </td>
+                }
+                else if (item.iscansel)
+                {
+                    <td>
+                        کنسل شده
+                    </td>
+                }
+                <td>
+                    <div>
+                        @if (item.ispay && !item.isready && !item.issend && !item.iscansel)
+                        {
+                            <a class="btn btn-outline-warning" asp-action="Edit" asp-route-ready="true" asp-route-id="@item.id">تغییر وضعیت به آماده شده</a>
+
+                        }
+                        else if (item.ispay && item.isready && !item.issend && !item.iscansel)
+                        {
+                            <a class="btn btn-outline-warning" asp-action="Edit" asp-route-send="true" asp-route-id="@item.id">تغییر وضعیت به ارسال شده</a>
+
+                        }
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.id">مشاهده</a>
+                        @if (!item.iscansel&&!item.issend)
+                        {
+                            <a class="btn btn-outline-danger" asp-action="Cansel" asp-route-iscansel="true" asp-route-id="@item.id">کنسل کردن سفارش</a>
+
+                        }
+                        @*else if(item.iscansel)
+                        {
+                            <a class="btn btn-outline-primary" asp-action="Cansel" asp-route-iscansel="false" asp-route-id="@item.id">برقرار کردن سفارش</a>
+                        }*@
+                        <a class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-id="@item.id" data-method="Baskets">حذف</a>
+                    </div>
+
+            </td>
+            </tr>
+
+        }
+
+            </tbody>
+            </table>
+            </div>
+            @section Scripts{
+                <script>
+        $(document).ready(function () {
+            var t ="@(ViewBag.ok)";
+            $("#type option[value=" + t + "]").prop('selected', true);
+        });
+    $("#type").change(function () {
+        var id = $(this).find(":selected").val();
+        window.location.replace("/Admin/Baskets/Index/?type=" + id);
+    });
+                </script>
+            }

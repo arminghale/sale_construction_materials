@@ -1,0 +1,64 @@
+﻿@model DataBaseBackend.Takhfif
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex justify-content-center">
+                اعمال تخفیف کالای @ViewBag.productid
+            </div>
+        </div>
+    </div>
+</nav>
+<form asp-action="Takhfif" enctype="multipart/form-data">
+    <div class="form-row" id="createform">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input class="form-control" asp-for="productid" hidden value="@ViewBag.productid" />
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align: center;" asp-for="starttime"></label>
+            <input class="form-control" type="text" name="start"  id="start"/>
+            <span class="text-danger" asp-validation-for="starttime"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align: center;" asp-for="endtime"></label>
+            <input class="form-control" type="text" name="end"  id="end" />
+            <span class="text-danger" asp-validation-for="endtime"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align: center;" asp-for="darsad"></label>
+            <input class="form-control" asp-for="darsad" />
+            <span class="text-danger" asp-validation-for="darsad"></span>
+        </div>
+    </div>
+    <input type="submit" value="ثبت" class="btn btn-success btn-lg" /> |
+    <a class="btn btn-dark " asp-action="Index" asp-area="Admin">بازگشت</a>
+</form>
+
+@section Scripts {
+    <script>
+        $('#start').MdPersianDateTimePicker({
+            targetTextSelector: '#start',
+            fromDate: true,
+            enableTimePicker: true,
+            groupId: 'rangeSelector1',
+            dateFormat: 'yyyy-MM-dd HH:mm:ss',
+            textFormat: 'yyyy-MM-dd HH:mm:ss',
+        });
+        $('#end').MdPersianDateTimePicker({
+            targetTextSelector: '#end',
+            fromDate: true,
+            enableTimePicker: true,
+            groupId: 'rangeSelector1',
+            dateFormat: 'yyyy-MM-dd HH:mm:ss',
+            textFormat: 'yyyy-MM-dd HH:mm:ss',
+        });
+    </script>
+}

@@ -1,0 +1,233 @@
+﻿@model DataBaseBackend.Basket
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex justify-content-center">
+                ثبت سفارش جدید
+            </div>
+        </div>
+    </div>
+</nav>
+<form asp-action="Create">
+    <div class="form-row" id="createform">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align:center;">کاربر</label>
+            <select id="users" asp-for="userid" class="form-control" asp-items="ViewBag.userid">
+                <option value="-1">انتخاب کنید</option>
+            </select>
+            <span class="text-danger" asp-validation-for="userid"></span>
+        </div>
+        <div class="form-inline col-md-3">
+            <label class="control-label col-md-12" style="font-weight: bold;text-align:center;"> </label>
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" id="search" placeholder="جستجو کاربر . . .">
+            </div>
+            <button class="btn btn-primary mb-2" type="button" onclick="u()">جستجو</button>
+        </div>
+        <div class="form-group col-md-10">
+            <label class="control-label col-md-6" style="font-weight: bold;text-align:center;">آدرس</label>
+            <select id="address" name="addressid" asp-for="addressid" class="form-control col-md-6"></select>
+            <span class="text-danger" asp-validation-for="addressid"></span>
+        </div>
+        <div class="form-group col-md-2">
+            <label class="control-label col-md-6" style="font-weight: bold;text-align:center;">مبلغ کل</label>
+            <input hidden id="total" asp-for="total" value="0"/>
+            <label  class="control-label col-md-6"></label>
+            <span class="text-danger" asp-validation-for="total"></span>
+        </div>
+        @*<div class="form-group col-md-12">
+            <select class="selectpicker" data-style="form-control" data-live-search="true" id="pr">
+                <option >USA</option>
+                <option >Germany</option>
+                <option >France</option>
+                <option >Poland</option>
+                <option >Japan</option>
+            </select>
+            <input class="btn btn-info" type="button" value="افزودن کالا" onclick="addfield()" />
+        </div>*@
+        @if (ViewBag.prs != null)
+        {
+            @for (int i = 0; i < ViewBag.prs.Count(); i++)
+            {
+    <div class="form-group col-md-3">
+        <label class="control-label col-md-7" style="font-weight: bold;text-align:center;">@ViewBag.prs[i].title</label>
+        <label class="control-label col-md-7" style="font-size: 16px;text-align:center;">موجودی : @ViewBag.prs[i].count</label>
+        <input hidden id="ids" name="ids" value="@ViewBag.prs[i].id" />
+        <input hidden value="@ViewBag.prices[i]" />
+        <input name="counts" class="form-control col-md-6" value="@ViewBag.counts[i]" type="number" max="@ViewBag.prs[i].count" />
+        <label class="control-label col-md-12" style="font-size: 14px;">@(ViewBag.counts[i]* ViewBag.prices[i]) تومان</label>
+        <input hidden value="@ViewBag.prs[i].count" />
+        <input type="button" class="btn btn-danger mt-sm-2 mx-xl-5" value="حذف" onclick="deletefield(event)" />
+    </div>
+            }
+            @foreach (var item in ViewBag.prs)
+            {
+
+            }
+        }
+
+        <div class="form-group col-md-12" id="hr">
+            <hr />
+        </div>
+    </div>
+    <input type="submit" value="پرداخت و ثبت سفارش" class="btn btn-success btn-lg" /> |
+    <a class="btn btn-dark " asp-action="Index">بازگشت</a>
+</form>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/Admin/Baskets/ProductSearch",
+                data: {}
+            }).done(function (result) {
+                $('#hr').after(result);
+            });
+            $('.selectpicker').selectpicker();
+        });
+        function pr() {
+            var no = $('#no').find(':selected').val();
+            var group = $('#group').find(':selected').val();
+            var search = $('#search').val();
+            $.ajax({
+                type: "GET",
+                url: "/Admin/Baskets/ProductSearch",
+                data: { no: no, gid: group, search: search }
+            }).done(function (result) {
+                $('#Product').remove();
+                $('#hr').after(result);
+            });
+        }
+
+        function add(id, count, title) {
+            $.ajax({
+                type: "GET",
+                url: "/Admin/Baskets/ProductBaTakhfif",
+                data: { id: id }
+            }).done(function (result) {
+                var price = result;
+                var div = $('<div>').addClass('form-group col-md-3');
+                var lable = $('<label>').addClass('control-label col-md-7').css({ 'font-weight': 'bold', 'text-align': 'center' }).html(title);
+                var lable2 = $('<label>').addClass('control-label col-md-7').css({ 'font-size': '16px', 'text-align': 'center' }).html('موجودی: ' + count);
+                div.append(lable);
+                div.append(lable2);
+                var input1 = $('<input>').addClass('form-control col-md-6').attr('name', 'ids').attr('hidden', 'true').val(id);
+                var input2 = $('<input>').addClass('form-control col-md-6').attr('hidden', 'true').val(price);
+                var input3 = $('<input>').addClass('form-control col-md-6').attr('name', 'counts').val('1').attr('type', 'number').attr('max', count).attr('onchange', 'maxprice(event)');
+                var input4 = $('<input>').addClass('form-control col-md-6').attr('hidden', 'true').val(count);
+                var input5 = $('<input>').addClass('btn btn-danger mt-sm-2 mx-xl-5').val('حذف').attr('type', 'button').attr('onclick', 'deletefield(event)');
+                div.append(input1);
+                div.append(input2);
+                div.append(input3);
+                div.append(input4);
+                div.append(input5);
+                $('#hr').before(div);
+            });
+        }
+
+        function maxprice(e) {
+            if ($(e.target).parent().children(':eq(5)').is('label')) {
+                var temp2 = parseInt($('#total').val());
+                $('#total').val(temp2 - ($(e.target).parent().children(':eq(5)').html().replace("تومان", "")));
+                $(e.target).parent().children(':eq(5)').remove();
+            }
+            var maxi = $(e.target).parent().children(':eq(5)').val();
+            var c = $(e.target).val();
+            if (c > maxi) {
+                $(e.target).val(maxi);
+            }
+            var te = $(e.target).parent().children(':eq(3)').val();
+            var price = (c * te);
+            var temp = parseInt($('#total').val());
+            temp = temp + price;
+            $('#total').val(temp);
+            $('#total').next().html(temp + 'تومان');
+            var span = $('<label>').addClass('control-label col-md-12').css({ 'font-size': '14px' }).html(price + 'تومان');
+            $(e.target).after(span);
+        }
+
+        function deletefield(e) {
+            if ($(e.target).parent().children(':eq(5)').is('label')) {
+                var temp2 = parseInt($('#total').val());
+                $('#total').val(temp2 - ($(e.target).parent().children(':eq(5)').html().replace("تومان", "")));
+                $('#total').next().html($('#total').val() + 'تومان');
+            }
+            $(e.target).parent().remove();
+        }
+    </script>
+    <script>
+        function u() {
+            $.ajax({
+                type: "GET",
+                url: "/Admin/Messages/Users",
+                data: { search: $("#search").val() }
+            }).done(function (result) {
+                $('#users > option').remove();
+                if (result.length == 0) {
+                    var op = $("<option>").html("موردی یافت نشد.");
+                    op.val(-1);
+                    $('#users').append(op);
+                } else {
+                    var op = $("<option>").html("انتخاب کنید");
+                    op.val(-1);
+                    $('#users').append(op);
+                    for (var i = 0; i < result.length; i++) {
+                        var op = $("<option>").html(result[i].username);
+                        op.val(result[i]).id;
+                        $('#users').append(op);
+                    }
+                }
+            });
+        }
+
+        $('#users').change(function () {
+            var id = $(this).find(":selected").val();
+            $.ajax({
+                type: "GET",
+                url: "/Admin/Baskets/Addresses",
+                data: { id: id }
+            }).done(function (result) {
+                $('#address > option').remove();
+                if (result.length == 0) {
+                    var op = $("<option>").html("آدرسی یافت نشد.");
+                    op.val(-1);
+                    $('#address').append(op);
+                } else {
+                    var op = $("<option>").html("انتخاب کنید");
+                    op.val(-1);
+                    $('#address').append(op);
+                    for (var i = 0; i < result.length; i++) {
+                        var op = $("<option>").html(result[i].ostan + '-' + result[i].shahr + '-' + result[i].text);
+                        op.val(result[i].id);
+                        $('#address').append(op);
+                    }
+                }
+            });
+        });
+
+    </script>
+    <script>
+        $.previewImage({
+            'xOffset': 10,  // x-offset from cursor
+            'yOffset': -100,  // y-offset from cursor
+            'fadeIn': 100, // delay in ms. to display the preview
+            'css': {        // the following css will be used when rendering the preview image.
+                'padding': '20px',
+                // 'border': '5px solid black'
+            }
+        });
+    </script>
+}
+
+

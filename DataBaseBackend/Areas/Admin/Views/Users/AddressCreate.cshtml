@@ -1,0 +1,137 @@
+﻿@model DataBaseBackend.Address
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex justify-content-center">
+                افزودن آدرس کاربر @ViewBag.personid
+            </div>
+        </div>
+    </div>
+</nav>
+<form asp-action="AddressCreate">
+    <div class="form-row" id="createform">
+        <input hidden value="@ViewBag.personid" name="personid" />
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-7" style="font-weight: bold;text-align:center;">استان</label>
+            <select id="ostan" name="ostan" class="form-control">
+                <option value="-1">انتخاب کنید</option>
+            </select>
+            <span class="text-danger" asp-validation-for="ostan"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-7" style="font-weight: bold;text-align:center;">شهر</label>
+            <select id="shahr" name="shahr" class="form-control">
+                <option value="-1">انتخاب کنید</option>
+            </select>
+            <span class="text-danger" asp-validation-for="shahr"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-7" style="font-weight: bold;text-align:center;">کد پستی</label>
+            <input asp-for="codeposti" class="form-control" type="text" />
+            <span class="text-danger" asp-validation-for="codeposti"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-7" style="font-weight: bold;text-align:center;">آدرس</label>
+            <input asp-for="text" class="form-control" type="text" />
+            <span class="text-danger" asp-validation-for="text"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label col-md-7" style="font-weight: bold;text-align:center;">گیرنده</label>
+            <select id="girande" name="girande" class="form-control">
+                <option value="0" selected>خود کاربر</option>
+                <option value="1">شخص دیگر</option>
+            </select>
+        </div>
+        <div class="form-group col-md-3" id="girande1" style="display:none;">
+            <label class="control-label col-md-7" style="font-weight: bold;text-align:center;">نام گیرنده</label>
+            <input asp-for="girandename" class="form-control" type="text" />
+            <span class="text-danger" asp-validation-for="girandename"></span>
+        </div>
+        <div class="form-group col-md-3" id="girande2" style="display:none;">
+            <label class="control-label col-md-7" style="font-weight: bold;text-align:center;">نام خانوادگی گیرنده</label>
+            <input asp-for="girandelastname" class="form-control" type="text" />
+            <span class="text-danger" asp-validation-for="girandelastname"></span>
+        </div>
+        <div class="form-group col-md-3" id="girande3" style="display:none;">
+            <label class="control-label col-md-7" style="font-weight: bold;text-align:center;">شماره تلفن گیرنده</label>
+            <input asp-for="girandephonenumber" class="form-control" type="text" />
+            <span class="text-danger" asp-validation-for="girandephonenumber"></span>
+        </div>
+
+    </div>
+    <input type="submit" value="ثبت اطلاعات" class="btn btn-success btn-lg" /> |
+    <a class="btn btn-dark " asp-action="AddressList" asp-route-id="@ViewBag.personid">بازگشت</a>
+</form>
+
+@section Scripts {
+    <script>
+
+        $(document).ready(function () {
+            var jsonState;
+            var URL = '/Admin/Users/State';
+            var req = new XMLHttpRequest();
+            req.open('GET', URL);
+            req.responseType = 'json';
+            req.send();
+            req.onload = function () {
+                var resp = req.response;
+                jsonState = resp;
+                for (var i = 0; i < jsonState.length; i++) {
+                    var op = $("<option>").html(jsonState[i].name);
+                    op.val(jsonState[i].id);
+                    $('#ostan').append(op);
+                }
+            }
+        });
+        $('#ostan').change(function () {
+            $("#shahr > option").remove();
+            var op = $("<option>").html("انتخاب کنید");
+            op.val(-1);
+            $("#shahr").append(op);
+            var state = $("#ostan > option:selected").val()
+            var jsonCity;
+            var URL2 = '/Admin/Users/City';
+            var req2 = new XMLHttpRequest();
+            req2.open('GET', URL2);
+            req2.responseType = 'json';
+            req2.send();
+            req2.onload = function () {
+                var resp2 = req2.response;
+                jsonCity = resp2;
+                for (var i = 0; i < jsonCity.length; i++) {
+                    if (jsonCity[i].province_id == state) {
+                        var op = $("<option>").html(jsonCity[i].name);
+                        op.val(jsonCity[i].id);
+                        //$('#shahr').append("<option value=" + jsonCity[i].name + ">" + jsonCity[i].name + "<option/>")
+                        $('#shahr').append(op);
+                    }
+
+                }
+            }
+
+        });
+    </script>
+<script>
+    $('#girande').change(function () {
+        if ($('#girande > option:selected').val() == 1) {
+            $('#girande1').css('display','block');
+            $('#girande2').css('display', 'block');
+            $('#girande3').css('display', 'block');
+        } else {
+            $('#girande1').hide();
+            $('#girande2').hide();
+            $('#girande3').hide();
+        }
+    });
+</script>
+}

@@ -1,0 +1,71 @@
+﻿@model IEnumerable<DataBaseBackend.MainSlider>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex justify-content-center">
+                لیست تصاویر اسلاید اصلی
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="alldevices">
+    <form class="form-inline" asp-action="Index">
+        <div class="mx-sm-3 mb-2">
+            <a asp-action="Create" class="btn btn-outline-success">افزودن تصویر جدید</a>
+        </div>
+    </form>
+    <br>
+    <!-- device's list -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">
+                    تصویر
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.title)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tbod">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="/Files/Slider/@item.imagename" style="max-width:100px" onclick="window.open('/Files/Slider/@item.imagename','_blank')" />
+                    </td>
+                    <td>
+                        @item.title
+                    </td>
+                    @if (item.link != null)
+                    {
+                        <td>
+                            <a class="btn btn-info" href="@item.link" target="_blank">مشاهده لینک</a>
+
+                        </td>
+                    }
+                    <td>
+                        <div>
+                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.id">تغییر</a>
+                            <a class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-id="@item.id" data-method="MainSlider">حذف</a>
+                        </div>
+
+                    </td>
+                </tr>
+
+            }
+
+        </tbody>
+    </table>
+</div>

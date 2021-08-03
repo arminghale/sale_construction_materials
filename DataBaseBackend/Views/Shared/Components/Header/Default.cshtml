@@ -1,0 +1,145 @@
+﻿@model IEnumerable<PrGroup>
+    <!-- start of header area -->
+<!-- after login header -->
+<header class="after-login">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div>
+            @if (User.IsInRole("admin"))
+            {
+                <a href="/Admin" class="text-decoration-none" style="color: #292929;">
+                    <div class="profile-holder">
+                        <img src="/Pics/icons8-male-user-100.png"
+                             style="width: 50px; height: 50px; border-radius: 50px; border: 1px solid black;">
+                    </div>
+                </a>
+            }
+            else if (User.IsInRole("anbar"))
+            {
+                <a href="/Anbar" class="text-decoration-none" style="color: #292929;">
+                    <div class="profile-holder">
+                        <img src="/Pics/icons8-male-user-100.png"
+                             style="width: 50px; height: 50px; border-radius: 50px; border: 1px solid black;">
+                    </div>
+                </a>
+            }
+            else
+            {
+                <a href="/User" class="text-decoration-none" style="color: #292929;">
+                    <div class="profile-holder">
+                        <img src="/Pics/icons8-male-user-100.png"
+                             style="width: 50px; height: 50px; border-radius: 50px; border: 1px solid black;">
+                    </div>
+                </a>
+            }
+
+            @if (User.IsInRole("user"))
+            {
+                <a href="/Basket/@int.Parse(User.Claims.FirstOrDefault(w=>w.Type=="userid").Value)">
+                    <div class="shopping-holder">
+                        <input type="shop">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                </a>
+            }
+
+
+            <form id="search" asp-action="Index" asp-controller="Products">
+                <input type="search" name="search" id="btnsearch">
+                <i onClick="javascript:getElementById('search').submit();" class="fa fa-search"></i>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div>
+            <a href="/Login" class="text-decoration-none" style="color: #292929;">
+                <div id="login">
+                    <i class="fa fa-user"></i>
+                    <span id="login-text" style="font-size: 12px;"> ورود به حساب کاربری </span>
+                </div>
+            </a>
+
+            <form id="search" asp-action="Index" asp-controller="Products">
+                <input type="search" name="search" id="btnsearch">
+                <i onClick="javascript:getElementById('search').submit();" class="fa fa-search"></i>
+            </form>
+        </div>
+    }
+
+
+    <a href="/">
+        <div id="logo-holder">
+            <img id="logo" src="/Pics/mylogo.png">
+        </div>
+    </a>
+
+    <ul id="menu">
+        <li class="products">
+            <a class="a-menu" href="#">
+                <div class="a-menu-holder a-menu-holder-right">
+                    <span class="span-menu">محصولات</span>
+                </div>
+
+                <div class="about-me-sub">
+                    <div id="mosalas"></div>
+                    <div class="hover-helper"></div>
+                    <div class="border-of-about-sub">
+                        @foreach (var item in Model)
+                        {
+                            <a class="a-product" href="/Products/?gid=@item.id">
+                                <div class="pkg-about-sub upper-pkg">
+                                    <div>
+                                        <img class="header-products-img" src="/Pics/1481325031600002117.svg">
+                                    </div>
+                                    <span> @item.title </span>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                </div>
+            </a>
+        </li>
+
+        <li style="margin-top: 6px; font-size: 30px;">
+            <a href="#" onclick="return false;"
+               style="color: #DBDEE1;">|</a>
+        </li>
+
+        <li>
+            <a class="a-menu" href="/Products/?sortby=takhfif">
+                <div class="a-menu-holder">
+                    <span class="span-menu">تخفیف ها</span>
+                </div>
+            </a>
+        </li>
+
+        <li style="margin-top: 6px; font-size: 30px;">
+            <a href="#" onclick="return false;"
+               style="color: #DBDEE1;">|</a>
+        </li>
+
+        <li>
+            <a class="a-menu" href="/Products/?sortby=seen">
+                <div class="a-menu-holder">
+                    <span class="span-menu">پر بازدید ها</span>
+                </div>
+            </a>
+        </li>
+
+        <li style="margin-top: 6px; font-size: 30px;">
+            <a href="#" onclick="return false;"
+               style="color: #DBDEE1;">|</a>
+        </li>
+
+        <li>
+            <a class="a-menu" href="/ContactUS">
+                <div class="a-menu-holder">
+                    <span class="span-menu">تماس با ما</span>
+                </div>
+            </a>
+        </li>
+    </ul>
+
+</header>
+<!-- end of header area -->

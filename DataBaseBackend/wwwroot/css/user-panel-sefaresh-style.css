@@ -1,0 +1,179 @@
+@font-face {
+	font-family: 'weblogmayekan';
+	src: url('../fonts/Weblogma_Yekan.eot');
+	src: url('../fonts/Weblogma_Yekan.eot#iefix') format('embedded-opentype'),
+		url('../fonts/Weblogma_Yekan.woff') format('woff'),
+		url('../fonts/Weblogma_Yekan.ttf') format('truetype'),
+		url('../fonts/Weblogma_Yekan.svg#CartoGothicStdBook') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	direction: rtl;
+	margin: 0;
+	font-family: yekan, sans-serif !important;
+	background-color: #ECEFF1 !important;
+}
+
+.container {
+	padding: 30px 10px;
+	opacity: 1;
+	margin-top: 60px;
+}
+
+.last-products {
+	width: 95%;
+	height: auto;
+	background-color: rgba(255, 255, 255, 0.959);
+	margin-top: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 45px;
+	text-align: right;
+	padding-top: 20px;
+	border-radius: 12px;
+}
+
+.last-products .swiper-button-next {
+	background-color: white;
+	box-shadow: 1.5px 0 4px 0 rgb(0 0 0 / 15%);
+	width: 50px;
+	height: 90px;
+	padding: 20px;
+	border-radius: 12px;
+	left: 0px !important;
+	top: 120px !important;
+	font-size: 26px i !important;
+}
+
+.product-holder {
+	position: relative;
+	width: 90%;
+	height: 100%;
+	margin: auto;
+}
+
+.product-card {
+	width: 180px;
+	padding-left: 7px;
+	padding-right: 7px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	border-radius: 12px;
+	transition-duration: 0.1s;
+	float: right;
+	margin-right: 4px;
+	margin-left: 4px;
+    box-shadow: rgba(145, 145, 153, 0.2) 0px 7px 10px 0px;
+}
+
+.product-card:hover {
+	transform: scale(1.04);
+}
+
+.inline{
+    display: flex;
+    flex-direction: row;
+}
+
+.img-card {
+	max-height: 100%;
+	max-width: 100%;
+	object-fit: contain;
+	border-radius: 12px;
+}
+
+.card-img-holder {
+	width: 100px;
+	height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.img-holder-swiper {
+	width: 936px;
+	height: 377px;
+}
+
+.card-text {
+	text-align: center;
+	margin-top: 20px;
+	color: #474747;
+    font-size: 14px;
+}
+
+.card-text span {
+	margin-top: 0px;
+}
+
+.card-price {
+	margin-top: 5px;
+	margin-right: 0px;
+	font-size: 12px;
+    text-align: center;
+}
+
+.list-of-card {
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 20px;
+	margin-top: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.flex {
+	display: flex;
+}
+
+#mytext {
+	display: inline;
+}
+
+input {
+	position: absolute;
+	top: 1px;
+	left: 0;
+	width: 90%;
+	height: 42.5px;
+	line-height: 30px;
+	outline: 0;
+	border: 0;
+	display: none;
+	font-size: 1em;
+	border-radius: 20px;
+	padding: 0 20px;
+	margin-right: 50px;
+}
+
+form:hover input {
+	display: block;
+}
+
+form:hover .fa-search {
+	background: #07051a;
+	color: white;
+	margin-left: 50px;
+}
+
+a {
+	color: black;
+	text-decoration: none !important;
+}
+
+.submit{
+    border: 1px solid #C8C8C8;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: white;
+    color: #51B045;
+    margin-bottom: 10px;
+}
+
+.submit:hover{
+    background-color: #51B045;
+    color: white;
+}

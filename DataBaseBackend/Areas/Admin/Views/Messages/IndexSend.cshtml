@@ -1,0 +1,86 @@
+﻿@model IEnumerable<DataBaseBackend.Message>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex justify-content-center">
+                لیست پیام های ارسالی
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="alldevices">
+    <form class="form-inline" asp-action="IndexSend">
+        <div class="form-group mx-sm-3 mb-2">
+            <select name="type" type="text" class="form-control">
+                <option value="-1">جستجو براساس</option>
+                <option value="0">نام ارسال کننده</option>
+                <option value="1">متن پیام</option>
+            </select>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <input type="text" class="form-control" placeholder="جستجو" name="search">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">جستجو</button>
+        <div class="mx-sm-3 mb-2">
+            <a asp-action="Create" class="btn btn-outline-success">پیام جدید</a>
+        </div>
+    </form>
+    <br>
+    <!-- device's list -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">
+                    ایمیل / نام و نام خانوادگی
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tbod">
+            @foreach (var item in Model)
+            {
+                <tr>
+                        @if (item.User.Person!=null)
+                        {
+                            <td>
+                                @(item.User.Person.name+" "+item.User.Person.lastname)
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @item.User.email
+                            </td>
+                        }
+                    @if (!item.isseen)
+                    {
+                        <td style="color:red">
+                            دیده نشده
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td>
+                        <div>
+                            <a class="btn btn-info " asp-action="Details" asp-route-id="@item.id" asp-route-which="1">مشاهده</a>
+                            <a class="btn btn-danger " data-toggle="modal" data-target="#exampleModal" data-id="@item.id" data-method="Messages">حذف</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

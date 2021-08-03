@@ -1,0 +1,84 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div>
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                @*<a href="#" class="text-decoration-none" style="color: #292929;">
+                        <div class="profile-holder">
+                            <img src="pictures/81-ShGBC4yL.jpg"
+                                 style="width: 50px; height: 50px; border-radius: 50px; border: 1px solid black;">
+                        </div>
+                    </a>*@
+                <div class="info">
+                    @if (User.HasClaim(w => w.Type == "name"))
+                    {
+                        <a href="#" class="d-block">@User.Claims.FirstOrDefault(w => w.Type == "name").Value</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="d-block">@User.Identity.Name</a>
+                    }
+
+                    @*<span class="badge badge-danger navbar-badge">3</span>*@
+                </div>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2" style="text-align:right">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+                    <li class="nav-item has-treeview menu-open">
+                        <ul class="nav nav-treeview" id="menuside">
+                            <li class="nav-item">
+                                <a href="/User/Orders" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>سفارشات</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/Messages" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>پیام ها</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/ChangeInfo" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر اطلاعات کاربری</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/Addresses" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر و مشاهده آدرس ها</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/ChangePass" class="nav-link ">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر پسورد حساب</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Logout" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>خروج از حساب</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+    </div>
+    <!-- /.sidebar -->
+</aside>

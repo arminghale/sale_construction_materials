@@ -1,0 +1,78 @@
+﻿@model DataBaseBackend.Login
+
+@{
+    Layout = null;
+}
+
+<title> فعالسازی </title>
+<link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="/js/bootstrap/bootstrap.min.js"></script>
+<link href="/css/register-step2-style.css" rel="stylesheet">
+
+
+<div class="wrapper fadeInDown col-6">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <div id="formFooter">
+            <h4 class="underlineHover1" href="#">ثبت نام</h4>
+            <h6 class="underlineHover1" href="#">تایید اطلاعات</h6>
+        </div>
+        <!-- Icon -->
+        @if (!ViewBag.logback)
+        {
+            <div style="display: flex; flex-direction: row; justify-content: center; margin-top: 30px;">
+                <div class="col-2"></div>
+                <div class="fadeIn first col-1">
+                    مرحله ۱
+                </div>
+                <div class="col-2">
+                    <hr>
+                </div>
+                <div class="fadeIn first col-1" style="border-bottom: 3px solid #01AAFF; padding-bottom: 2px;">
+                    مرحله ۲
+                </div>
+                <div class="col-2">
+                    <hr>
+                </div>
+                <div class="fadeIn first col-1">
+                    مرحله ۳
+                </div>
+                <div class="col-2"></div>
+            </div>
+        }
+
+        <!-- Login Form -->
+        <form class="login-form" asp-action="Active">
+            <input name="id" hidden value="@ViewBag.id" class="form-control" />
+            <input name="logback" hidden value="@ViewBag.logback" class="form-control" />
+            <div class="login-part col-9">
+                <label>کد تایید</label>
+                <input type="text" id="login" class="fadeIn second" value="@ViewBag.code" name="activecode"
+                       placeholder="کد ارسال شده به ایمیل را در این قسمت وارد کنید">
+                <span class="warning" asp-validation-for="password"></span>
+            </div>
+
+            <input type="submit" class="fadeIn submit fourth col-6" value=ادامه>
+        </form>
+
+    </div>
+</div>
+
+@*<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Active">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input name="id" hidden value="@ViewBag.id" class="form-control" />
+            <input name="logback" hidden value="@ViewBag.logback" class="form-control" />
+            <div class="form-group">
+                <label class="control-label">کد فعالسازی</label>
+                <input name="activecode" value="@ViewBag.code" class="form-control" />
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>*@
+

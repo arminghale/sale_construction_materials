@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "محصولات";
+}
+@section Css{
+    <link rel="stylesheet" type="text/css" href="/css/products-style.css">
+}
+
+<div class="container col-11">
+    <div class="last-products">
+        <div style="display: flex; flex-direction: row;">
+            <h5 class="text-dark col-2" style="margin-right: 40px; padding-top: 5px;"> همه محصولات </h5>
+            <div class="col-7"></div>
+            <select id="sort" class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: auto; margin-right: 17px;">
+                <option value="" selected="selected">مرتب‌سازی بر اساس </option>
+                <option value="createdate" >مرتب‌سازی بر اساس آخرین</option>
+                <option value="arzan">مرتب‌سازی بر اساس ارزانترین</option>
+                <option value="gran">مرتب‌سازی بر اساس گرانترین</option>
+            </select>
+        </div>
+        <div style="background-color: rgb(199, 199, 199); width: 95%; height: 2px; margin-bottom: 20px; margin-left: auto; margin-right: auto; margin-top: 8px;">
+        </div>
+        <div class="col-12 list-of-card">
+
+            @foreach (var item in Model)
+            {
+                <a href="/Products/@item.id">
+                    <div class="product-card">
+                        <div class="card-img-holder">
+                            <img class="img-card" src="/Files//Thumb/@item.imagename">
+                        </div>
+                        <div class="card-price">@item.price تومان</div>
+                        <div class="card-text">
+                            <h6>@item.title</h6>
+                        </div>
+                        <a href="#">
+                            <div class="shopping-card-holder col-12">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                        </a>
+                    </div>
+                </a>
+            }
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="/js/products-js.js"></script>
+    <script>
+        $('#sort').change(function () {
+            var sort = $("#sort > option:selected").val()
+            window.location.replace("/Products/?sortby=" + sort);
+        });
+    </script>
+}

@@ -1,0 +1,147 @@
+﻿@model ChangeInfo
+@section css{
+    <link href="~/css/user-panel-change-info.css" rel="stylesheet" />
+}
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div>
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                @*<a href="#" class="text-decoration-none" style="color: #292929;">
+                        <div class="profile-holder">
+                            <img src="pictures/81-ShGBC4yL.jpg"
+                                 style="width: 50px; height: 50px; border-radius: 50px; border: 1px solid black;">
+                        </div>
+                    </a>*@
+                <div class="info">
+                    @if (User.HasClaim(w => w.Type == "name"))
+                    {
+                        <a href="#" class="d-block">@User.Claims.FirstOrDefault(w => w.Type == "name").Value</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="d-block">@User.Identity.Name</a>
+                    }
+
+                    @*<span class="badge badge-danger navbar-badge">3</span>*@
+                </div>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2" style="text-align:right">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+                    <li class="nav-item has-treeview menu-open">
+                        <ul class="nav nav-treeview" id="menuside">
+                            <li class="nav-item">
+                                <a href="/User/Orders" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>سفارشات</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/Messages" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>پیام ها</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/ChangeInfo" class="nav-link active">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر اطلاعات کاربری</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/Addresses" class="nav-link ">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر و مشاهده آدرس ها</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/ChangePass" class="nav-link ">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر پسورد حساب</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Logout" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>خروج از حساب</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+    </div>
+    <!-- /.sidebar -->
+</aside>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <h1 class="m-0 text-dark">تغییر اطلاعات کاربری</h1>
+                <!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="last-products">
+                <form class="login-form" action="/User/ChangeInfo" method="post">
+                    <input asp-for="id" hidden />
+                    <input asp-for="username" hidden />
+                    <div style="display: flex; flex-direction: row;">
+                        <div class="login-part col-5" style="margin-top: 5px;">
+                            <label>نام</label>
+                            <div style="height: 5px;"></div>
+                            <input type="text" id="login" class="fadeIn second" asp-for="name"
+                                   placeholder="مثال: پوریا">
+                            <span asp-validation-for="name" class="warning" id="warning-name">
+                            </span>
+                        </div>
+                        <div class="login-part col-5" style="margin-top: 5px;">
+                            <label>نام خانوادگی</label>
+                            <div style="height: 5px;"></div>
+                            <input type="text" id="password" class="fadeIn third" asp-for="lastname"
+                                   placeholder="مثال: محمدی">
+                            <span class="warning" id="warning-fname" asp-validation-for="lastname">
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="login-part col-11">
+                        <label style="margin-top: 10px;">ایمیل</label>
+                        <input type="text" id="login" class="fadeIn second" asp-for="email"
+                               placeholder="مثال: example@yahoo.com">
+                        <span class="warning" id="warning-email" asp-validation-for="email">
+                        </span>
+                    </div>
+
+                    <div class="login-part col-8">
+                        <label>شماره تماس</label>
+                        <div style="height: 5px;"></div>
+                        <input type="text" id="login" class="fadeIn second" asp-for="phonenumber"
+                               placeholder="مثال: 09333333333">
+                        <span class="warning" id="warning-phone" asp-validation-for="phonenumber">
+                        </span>
+                    </div>
+
+                    <input type="submit" class="fadeIn submit fourth col-5" value=تایید>
+                </form>
+            </div>
+        </div>
+        <!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>

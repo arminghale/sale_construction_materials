@@ -1,0 +1,93 @@
+﻿@model DataBaseBackend.User
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex justify-content-center">
+                اطلاعات کاربر @Model.id
+            </div>
+        </div>
+    </div>
+</nav>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            نقش
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Role.title
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.username)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.username)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.password)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.password)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.lastlogin)
+        </dt>
+        <dd class="col-sm-10">
+            @DateDifference.MiladiToShamsi(Model.lastlogin)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.isactive)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.isactive)
+            {
+                <span>فعال</span>
+            }
+            else
+            {
+                <span>غیر فعال</span>
+            }
+        </dd>
+        @if (Model.Person != null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Person.name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Person.name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Person.lastname)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Person.lastname)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Person.phonenumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Person.phonenumber)
+            </dd>
+        }
+
+    </dl>
+</div>
+<div>
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.id">تغییر</a> |
+    <a class="btn btn-dark " asp-action="Index">بازگشت</a>
+</div>

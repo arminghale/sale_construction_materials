@@ -1,0 +1,101 @@
+﻿@model DataBaseBackend.Product
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark btn-sm d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-arrow-down d-flex justify-content-center"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex justify-content-center">
+                جزئیات کالای @Model.id
+            </div>
+        </div>
+    </div>
+</nav>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.title)
+        </dd>
+        <dt class="col-sm-2">
+            گروه کالا
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PrGroup.title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.count)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.count)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.readyday)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.readyday) روز
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.sendday)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.sendday) روز
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.text)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.text)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.createdate)
+        </dt>
+        <dd class="col-sm-10">
+            @DateDifference.datedif(Model.createdate)
+        </dd>
+        <dt class="col-sm-2">
+            تگ ها
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var item in Model.Tags)
+            {
+                @(item.text)
+                <br />
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.imagename)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="/Files/@Model.imagename" style="max-width:250px" onclick="window.open('/Files/@Model.imagename','_blank')" />
+        </dd>
+        <dt class="col-sm-2">
+            گالری تصاویر
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var item in Model.Galleries)
+            {
+                <img src="/Files/Gallery/@item.imagename" style="max-width:100px" onclick="window.open('/Files/Gallery/@item.imagename','_blank')" />
+
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-dark" asp-action="ProductIndex">بازگشت</a>
+</div>

@@ -1,0 +1,218 @@
+﻿@model IEnumerable<Message>
+@section css{
+    <link href="~/css/user-panel-payam-style.css" rel="stylesheet" />
+}
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div>
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                @*<a href="#" class="text-decoration-none" style="color: #292929;">
+                        <div class="profile-holder">
+                            <img src="pictures/81-ShGBC4yL.jpg"
+                                 style="width: 50px; height: 50px; border-radius: 50px; border: 1px solid black;">
+                        </div>
+                    </a>*@
+                <div class="info">
+                    @if (User.HasClaim(w => w.Type == "name"))
+                    {
+                        <a href="#" class="d-block">@User.Claims.FirstOrDefault(w => w.Type == "name").Value</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="d-block">@User.Identity.Name</a>
+                    }
+
+                    @*<span class="badge badge-danger navbar-badge">3</span>*@
+                </div>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2" style="text-align:right">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+                    <li class="nav-item has-treeview menu-open">
+                        <ul class="nav nav-treeview" id="menuside">
+                            <li class="nav-item">
+                                <a href="/User/Orders" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>سفارشات</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/Messages" class="nav-link active">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>پیام ها</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/ChangeInfo" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر اطلاعات کاربری</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/Addresses" class="nav-link ">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر و مشاهده آدرس ها</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/User/ChangePass" class="nav-link ">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>تغییر پسورد حساب</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Logout" class="nav-link">
+                                    <i class="fa fa-circle-o nav-icon"></i>
+                                    <p>خروج از حساب</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+    </div>
+    <!-- /.sidebar -->
+</aside>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <h1 class="m-0 text-dark">پیام ها</h1>
+                <!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="last-products">
+                <div class="inline" style="margin-left: auto; margin-right: auto;">
+                    <h6 class="text-dark col-9" style="margin-bottom: 2px; padding-right: 235px;"> پیام های ارسالی </h6>
+                    <div id="radios" class="col-3" style="left: 5px;">
+                        <label for="ارسال پیام جدید" class="material-icons" style="margin-bottom: 0px;" onclick="newmessage()">
+                            <input type="radio" name="mode" id="ارسال پیام جدید" value="ارسال پیام جدید"
+                                   checked />
+                            <span style="padding-left: 8.5px; padding-right: 8px; padding-top: 7px; padding-bottom: 6.5px; font-weight: 1500;"><i class="fas fa-plus"></i></span>
+
+                        </label>
+                    </div>
+                </div>
+                <div style="background-color: rgb(199, 199, 199); width: 100%; height: 1.5px; margin-top: 10px; margin-bottom: 10px;">
+                </div>
+                @foreach (var item in ViewBag.list2)
+                {
+                    <div class="inline-column-light">
+                        <div class="inline-part-value col-6">
+                            @if (item.text.Length < 20)
+                            {
+                                <p id="kala-name">@item.text</p>
+                            }
+                            else
+                            {
+                                <p id="kala-name">@item.text.Substring(0, 20)</p>
+                            }
+                        </div>
+                        <div class="inline-part-value col-2">
+                            <p class="date-message">@DateDifference.MiladiToShamsi(item.createdate).Split(' ')[0].Replace('-', '/')</p>
+                        </div>
+                        <div class="inline-part-value col-3" style="margin-right: 7px;">
+                            <a href="javascript:;" onclick="showmessage(@item.id)" class="kala-desc-light">مشاهده پیام</a>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="last-products">
+                <div class="col-3 inline" style="margin-left: auto; margin-right: auto;">
+                    <div class="inline" style="margin-right: auto; margin-left: auto;">
+                        <h6 class="text-dark"> پیام های دریافتی </h6>
+                    </div>
+                </div>
+                <div style="background-color: rgb(199, 199, 199); width: 100%; height: 1.5px; margin-top: 9.5px; margin-bottom: 10px; margin-left: auto; margin-right: auto;">
+                </div>
+                @foreach (var item in Model)
+                {
+                    <div class="inline-column-light">
+                        <div class="inline-part-value col-6">
+                            @if (item.text.Length < 20)
+                            {
+                                <p id="kala-name">@item.text</p>
+                            }
+                            else
+                            {
+                                <p id="kala-name">@item.text.Substring(0, 20)</p>
+                            }
+
+                        </div>
+                        <div class="inline-part-value col-2">
+                            <p class="date-message">@DateDifference.MiladiToShamsi(item.createdate).Split(' ')[0].Replace('-', '/')</p>
+                        </div>
+                        <div class="inline-part-value col-3" style="margin-right: 7px;">
+                            <a href="javascript:;" onclick="showmessage(@item.id)" class="kala-desc-light">مشاهده پیام</a>
+                        </div>
+                    </div>
+                }
+            </div>
+            @foreach (var item in Model)
+            {
+                <div class="be-comment-text" id="m-@item.id" hidden>
+                    <p>
+                        @item.text
+                    </p>
+                    <div class="inline-part-value col-3" style="margin-right: auto; margin-left: auto; margin-top: 8px;">
+                        <a href="javascript:;" onclick="closepopup(event)" class="close-message">بستن پیام</a>
+                    </div>
+                </div>
+            }
+            @foreach (var item in ViewBag.list2)
+            {
+                <div class="be-comment-text" id="m-@item.id" hidden>
+                    <p>
+                        @item.text
+                    </p>
+                    <div class="inline-part-value col-3" style="margin-right: auto; margin-left: auto; margin-top: 8px;">
+                        <a href="javascript:;" onclick="closepopup(event)" class="close-message">بستن پیام</a>
+                    </div>
+                </div>
+            }
+
+            <form  class="be-comment-text" hidden id="newmessage" action="/User/Messages" method="post">
+                <textarea rows="5" placeholder="متن پیام" name="message">
+                </textarea>
+                <div class="inline-part-value col-3" style="margin-right: auto; margin-left: auto; margin-top: 8px;">
+                    <a href="#" onclick="document.getElementById('newmessage').submit();" class="kala-desc-light" >ارسال پیام</a>
+                </div>
+                <div class="inline-part-value col-3" style="margin-right: auto; margin-left: auto; margin-top: 8px;">
+                    <a href="javascript:;" onclick="closepopup(event)" class="close-message">بستن</a>
+                </div>
+            </form>
+            <!--/. container-fluid -->
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+@section Scripts{ 
+<script>
+    function newmessage() {
+        $('#newmessage').removeAttr('hidden');
+    }
+    function showmessage(id) {
+        $('#m-' + id).removeAttr('hidden');
+    }
+    function closepopup(e) {
+        $(e.target).parent().parent().attr('hidden', true);
+    }
+</script>
+}

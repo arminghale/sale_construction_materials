@@ -1,0 +1,69 @@
+﻿@model DataBaseBackend.Message
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Message</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <label asp-for="userid" class="control-label"></label>
+                <select asp-for="userid" class="form-control" asp-items="ViewBag.userid"></select>
+                <span asp-validation-for="userid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="user2id" class="control-label"></label>
+                <select asp-for="user2id" class="form-control" asp-items="ViewBag.user2id"></select>
+                <span asp-validation-for="user2id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="text" class="control-label"></label>
+                <input asp-for="text" class="form-control" />
+                <span asp-validation-for="text" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="isseen" /> @Html.DisplayNameFor(model => model.isseen)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="createdate" class="control-label"></label>
+                <input asp-for="createdate" class="form-control" />
+                <span asp-validation-for="createdate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="sendername" class="control-label"></label>
+                <input asp-for="sendername" class="form-control" />
+                <span asp-validation-for="sendername" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="senderlastname" class="control-label"></label>
+                <input asp-for="senderlastname" class="form-control" />
+                <span asp-validation-for="senderlastname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="senderemail" class="control-label"></label>
+                <input asp-for="senderemail" class="form-control" />
+                <span asp-validation-for="senderemail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

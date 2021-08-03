@@ -1,0 +1,58 @@
+﻿@model Message
+@{
+    ViewData["Title"] = "ارتباط با ما";
+}
+@section Css{
+    <link rel="stylesheet" type="text/css" href="/css/contact-us-style.css">
+}
+
+<div class="container col-10">
+    <div class="contact-us-holder">
+        <div class="right-contact col-4">
+            <div class="title">
+                <h6 style="margin-right: 30px; color: #797979;"> تماس با ما </h6>
+            </div>
+            <ul class="main-ul-contact">
+                <li class="main-li-contact">
+                    <i class="fas fa-phone fa-lg in-aline mt-2"></i>
+                    <ul class="sub-ul-contact">
+                        <li class="sub-li-contact" style="font-weight: bold;"> شماره تماس: </li>
+                        <li class="sub-li-contact sub-li-contact-info">017-32366666</li>
+                    </ul>
+                </li>
+                <li class="main-li-contact">
+                    <i class="far fa-envelope fa-lg in-aline mt-2"></i>
+                    <ul class="sub-ul-contact">
+                        <li class="sub-li-contact" style="font-weight: bold;"> ایمیل: </li>
+                        <li class="sub-li-contact sub-li-contact-info"> pouria_kdy@yahoo.com </li>
+                    </ul>
+                </li>
+                <li class="main-li-contact">
+                    <i class="fas fa-fax fa-lg in-aline mt-2"></i>
+                    <ul class="sub-ul-contact" style="margin-top: 12px;">
+                        <li class="sub-li-contact" style="font-weight: bold;"> فکس: </li>
+                        <li class="sub-li-contact sub-li-contact-info"> 017-32388888 </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <form asp-action="ContactUS" class="left-contact col-7" style="margin-top: 5px;">
+            <div class="sub-form">
+                <label style="margin-right: 6px;">نام و نام خانوادگی:</label>
+                <input asp-for="sendername" type="text" name="sendername" placeholder="لطفا نام و نام خانوادگی خود را وارد کنید"
+                       class="right" required />
+            </div>
+            <div class="sub-form">
+                <label style="margin-right: 6px;">ایمیل:</label>
+                <input asp-for="senderemail" type="text" name="senderemail" placeholder="لطفا ایمیل خود را وارد کنید" class="right" />
+            </div>
+            <div class="sub-form">
+                <label style="margin-right: 6px;">متن پیام:</label>
+                <textarea asp-for="senderemail" name="text" id="TextArea" ng-model="loremIpsum" ng-keyup="autoExpand($event)"
+                          placeholder="لطفا متن نظر خود را وارد کنید."></textarea>
+            </div>
+            <input type="submit" id="submit" class="col-3" value="ارسال">
+        </form>
+    </div>
+</div>
+

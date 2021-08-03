@@ -1,0 +1,296 @@
+﻿@model Product
+@{
+    ViewData["Title"] = Model.title;
+}
+@section Css{
+    <link rel="stylesheet" href="/css/kala-style.css">
+}
+
+<main class="container">
+    <div class="flex-container">
+        <!-- Left Column / Headphones Image -->
+        <div class="right-column col-5">
+            <div class="img-total col-11">
+                <!-- image of kala -->
+                <div class="img-view-holder-big col-12">
+                    <img data-image="red" class="active img-view-big" id="mainimage" style="cursor:pointer;" src="/Files/@Model.imagename" alt="@Model.title" onclick="window.open(document.getElementById('mainimage').getAttribute('src'),'_blank')">
+                </div>
+
+                <hr class="col-11">
+
+                <!-- image list bottom of image of kala -->
+
+                <div class="img-list col-12">
+                    <div class="img-view-holder-small" onclick="changeimage(event)" style="cursor:pointer;">
+                        <img data-image="red" class="active img-view-small" src="/Files/@Model.imagename" alt="@Model.title">
+                    </div>
+                    @foreach (var item in Model.Galleries)
+                    {
+                        <div class="img-view-holder-small" onclick="changeimage(event)" style="cursor:pointer;">
+                            <img data-image="red" class="active img-view-small" src="/Files/Gallery/@item.imagename" alt="@Model.title">
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="left-column col-6">
+
+            <!-- Product Description -->
+            <div class="product-description">
+                <a href="/Products/?gid=@Model.prgroupid"><span>@Model.PrGroup.title</span></a>
+                <h1>@Model.title</h1>
+                <p>@Model.text</p>
+            </div>
+
+            <!-- Product Pricing -->
+
+            <div class="price-desc">
+
+                <div class="column-description col-7">
+                    @foreach (var item in Model.FillFields)
+                    {
+                        <div class="inline-div">
+                            <h6 class="title col-4">@item.Field.title:</h6>
+                            <h6 class="col-4">@item.text</h6>
+                        </div>
+                    }
+                </div>
+
+                <div class="buy-div col-5" >
+                    @if (ViewBag.takhfif != null)
+                    {
+                        <input hidden id="price" value="@ViewBag.takhfif" />
+                        <div class="with-discount" style="display:block">
+                            <div class="inline-div-before-discount col-11"
+                                 style="margin-left: auto; margin-right: auto;">
+                                <h6 class="title col-4" style="text-align: center;">قیمت واحد:</h6>
+                                <del class="col-8" style="text-align: center; color: red;">@Model.price.ToString("###/000") تومان</del>
+
+                            </div>
+                            <div class="inline-div-after-discount col-11"
+                                 style="margin-left: auto; margin-right: auto;">
+                                <h6 class="title col-4" style="text-align: center;">با تخفیف:</h6>
+                                <h6 class="col-8" style="text-align: center; color: blue;">@ViewBag.takhfif.ToString("###/000") تومان</h6>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <input hidden id="price" value="@Model.price" />
+                        <div class="without-discount">
+                            <div class="inline-div col-11" style="margin-left: auto; margin-right: auto;">
+                                <h6 class="title col-4" style="text-align: center;">قیمت واحد:</h6>
+                                <h6 class="col-8" style="text-align: center;">@Model.price.ToString("###/000") تومان</h6>
+                            </div>
+                        </div>
+                    }
+
+                <form method="post" action="/BasketAdd" id="add">
+                    <div class="col-11" style="margin-left: auto; margin-right: auto; margin-bottom: 10px;">
+                        <div class="input-group mb-2" style="margin-right: auto; margin-left: auto;">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">@Model.PrGroup.vahed</div>
+                            </div>
+                            <input type="number" class="form-control" id="tedad" name="tedad"
+                                   placeholder="تعداد سفارش">
+                        </div>
+                    </div>
+                    <input hidden name="prid" value="@Model.id" />
+                    <input hidden name="userid" value="@ViewBag.userid" />
+                    <a href="#" onclick="document.getElementById('add').submit();" style="color: white;">
+                        <div class="product-price col-11" style="margin-left: auto; margin-right: auto;">
+                            <p href="#" style="text-align: center; margin-bottom: 0px;">افزودن به سبد خرید</p>
+                        </div>
+                    </a>
+                </form>
+
+                    <div class="inline-div col-11" style="margin-left: auto; margin-right: auto;">
+                        <h6 class="title col-4" style="text-align: center;">قیمت نهایی:</h6>
+                        <h6 class="col-8" style="text-align: center;" id="result"></h6>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="comments">
+        <div class="be-comment-block">
+            @if (User.Identity.IsAuthenticated && User.IsInRole("user"))
+            {
+                <h1 class="comments-title">نظری دارید؟ اینجا بنویسید</h1>
+                <form class="form-block-user" asp-action="AddComment">
+                    <input hidden name="prid" value="@Model.id" />
+                    <div class="col-12" style="margin-left: auto; margin-right: auto;">
+                        <div class="form-group">
+                            <textarea name="text" class="form-input" required=""
+                                      placeholder="لطفا متن نظرتان را اینجا وارد کنید"></textarea>
+                        </div>
+                    </div>
+                    <div class="inline-div-submit col-12">
+                        <div class="col-2"></div>
+                        <input type="submit" class="col-8 btn btn-primary pull-right"
+                               style="padding-top: 12px; padding-bottom: 10px; color: white;" value="ارسال نظر" />
+                        <div class="col-2"></div>
+                    </div>
+                </form>
+            }
+            else
+            {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    <h1 class="comments-title" onclick="window.location.replace('/Login/?ReturnUrl=/Products/@Model.id')" style="cursor:pointer;">برای ارسال نظر لطفا وارد شوید</h1>
+                }
+            }
+
+
+
+
+            <hr style="border-top: 1px dashed black; background-color: white; opacity: 0.5; margin-top: 50px; margin-bottom: 50px;">
+
+            <h1 class="comments-title text-decoration-underline">نظرات (@Model.Comments.Count())</h1>
+            <div class="be-comment-show">
+                @foreach (var item in Model.Comments)
+                {
+                    <div class="be-comment">
+                        <div class="be-comment-content">
+                            <span class="be-comment-name">
+                                @(item.User.Person.name+" "+item.User.Person.lastname)
+                            </span>
+                            <span class="be-comment-time">
+                                <i class="fa fa-clock-o"></i>
+                                @DateDifference.MiladiToShamsi(item.createdate)
+                            </span>
+
+                            <div class="be-comment-text">
+                                <p style="font-size:18px;">
+                                    @item.text
+                                </p>
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <div class="inline">
+                                        <a href="/DeleteComment/@item.id">
+                                            <div class="comment-action trash-div">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </div>
+                                        </a>
+                                        <a href="javascript:;" onclick="replay(event)">
+                                            <div class="comment-action reply-div">
+                                                <i class="fa fa-reply" aria-hidden="true"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                                @if (item.CommentReplays.Count() != 0)
+                                {
+                                    @foreach (var item2 in item.CommentReplays)
+                                    {
+                                        <div class="be-comment-text" style="display:block;border-color:black;background-color:antiquewhite;margin-top:10px;">
+                                            <span class="be-comment-name" style="font-size:15px;font-weight:bold;">
+                                                پاسخ ادمین
+                                            </span>
+                                            <span class="be-comment-time">
+                                                <i class="fa fa-clock-o"></i>
+                                                @DateDifference.MiladiToShamsi(item2.createdate)
+                                            </span>
+                                            <div>
+                                                <p style="margin-right:10px;">
+                                                    @item2.text
+                                                </p>
+                                                @if (User.IsInRole("admin"))
+                                                {
+                                                    <div class="inline">
+                                                        <a href="/DeleteCommentReplay/@item2.id">
+                                                            <div class="comment-action trash-div">
+                                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    }
+
+                                }
+
+                            </div>
+                            @if (User.IsInRole("admin"))
+                            {
+                                <form class="form-block-reply" asp-action="AddCommentReply" style="display:none;">
+                                    <input hidden name="comid" value="@item.id" />
+                                    <div class="col-12" style="margin-left: auto; margin-right: auto;">
+                                        <div class="form-group">
+                                            <textarea name="text" class="form-input" required=""
+                                                      placeholder="لطفا متن نظرتان را اینجا وارد کنید"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="inline-div-submit col-12">
+                                        <div class="col-2"></div>
+                                        <input type="submit" class="col-8 btn btn-primary pull-right"
+                                               style="padding-top: 12px; padding-bottom: 10px; color: white;" value="ارسال نظر" />
+                                        <div class="col-2"></div>
+                                    </div>
+                                </form>
+                            }
+
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="write-comment">
+
+        </div>
+
+        <div class="view-comment">
+
+        </div>
+    </div>
+</main>
+
+@section Scripts{
+    <script>
+        function changeimage(e) {
+            var src = $(e.target).first().attr("src");
+            $("#mainimage").attr("src", src);
+        }
+
+        $("#tedad").change(function () {
+            $("#result").html("");
+            var tedad = $(this).val();
+            var price = $("#price").val();
+            var result = tedad * price;
+            $("#result").html(itpro(result) + " تومان");
+        });
+
+        function itpro(Number) {
+            Number += '';
+            Number = Number.replace(',', ''); Number = Number.replace(',', ''); Number = Number.replace(',', '');
+            Number = Number.replace(',', ''); Number = Number.replace(',', ''); Number = Number.replace(',', '');
+            x = Number.split('.');
+            y = x[0];
+            z = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(y))
+                y = y.replace(rgx, '$1' + ',' + '$2');
+            return y + z;
+        }
+
+        function replay(e) {
+            var form = $(e.target).parents().eq(3).next();
+            if (form.css("display") == "none") {
+                form.css({ "display": "inherit" });
+            } else {
+                form.css({ "display": "none" });
+            }
+
+        }
+    </script>
+}

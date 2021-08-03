@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>پنل کاربر</title>
+
+    <!-- Font Awesome Icons -->
+    <link href="~/js/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link href="~/css/adminlte.min.css" rel="stylesheet" />
+
+    @RenderSection("css", false)
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <script src="~/js/44f3d7159d.js"></script>
+    <link href="~/css/bootstrap/bootstrap.rtl.min.css" rel="stylesheet" />
+
+    <!-- template rtl version -->
+    <link href="~/css/custom-style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/css/swiper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/js/swiper.min.js"></script>
+
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/" class="nav-link">بازگشت به سایت</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        
+
+        <!-- Content Wrapper. Contains page content -->
+        @RenderBody()
+        <!-- /.content-wrapper -->
+        <!-- Control Sidebar -->
+        <!-- /.control-sidebar -->
+    </div>
+
+    <!-- REQUIRED SCRIPTS -->
+    <!-- jQuery -->
+    <script src="~/js/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/js/adminlte.js"></script>
+
+    <!-- OPTIONAL SCRIPTS -->
+    @*<script src="~/js/demo.js"></script>*@
+
+    <!-- PAGE PLUGINS -->
+    <!-- SparkLine -->
+    <script src="~/js/sparkline/jquery.sparkline.min.js"></script>
+    <!-- jVectorMap -->
+    <script src="~/js/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="~/js/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- SlimScroll 1.3.0 -->
+    <script src="~/js/sparkline/jquery.sparkline.min.js"></script>
+    <!-- ChartJS 1.0.2 -->
+    <script src="~/js/chartjs-old/Chart.min.js"></script>
+
+    <!-- PAGE SCRIPTS -->
+    <script src="~/js/dashboard2.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script>
+
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
